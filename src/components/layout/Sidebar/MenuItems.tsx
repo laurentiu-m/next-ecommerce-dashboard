@@ -28,21 +28,24 @@ export const MenuItems = () => {
   return (
     <div className="flex flex-col gap-4">
       <h5 className="text-sm font-light text-secondary">Main Menu</h5>
-      {menuItems.map((item) => {
-        const isActive = pathname === item.link;
 
-        return (
-          <Link
-            key={item.text}
-            href={item.link}
-            className={`${isActive ? "pointer-events-none bg-surface text-foreground" : "text-secondary cursor-pointer hover:bg-surface hover:text-foreground"} p-4 flex items-center gap-3 rounded-xl group transition-all duration-300`}
-            aria-disabled={isActive}
-          >
-            {item.icon}
-            <h4 className="font-medium">{item.text}</h4>
-          </Link>
-        );
-      })}
+      <div className="flex flex-col gap-2">
+        {menuItems.map((item) => {
+          const isActive = pathname === item.link;
+
+          return (
+            <Link
+              key={item.text}
+              href={item.link}
+              className={`${isActive ? "pointer-events-none bg-surface text-foreground" : "text-secondary cursor-pointer hover:bg-surface hover:text-foreground"} p-4 flex items-center gap-3 rounded-xl group transition-colors duration-300`}
+              aria-disabled={isActive}
+            >
+              {item.icon}
+              <h4 className="font-medium">{item.text}</h4>
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 };
