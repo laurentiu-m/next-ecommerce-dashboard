@@ -1,1 +1,43 @@
 @import "tailwindcss";
+
+@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@layer base {
+  :where([data-theme="light"]) {
+    --tw-bg: #ffffff;
+    --tw-text: #171717;
+    --tw-surface: #f5f5f5;
+    --tw-primary: #2563eb;
+    --tw-secondary: #6b7280;
+    --tw-accent: #4f46e5;
+    --tw-success: #22c55e;
+    --tw-warning: #eab308;
+    --tw-danger: #dc2626;
+  }
+
+  :where([data-theme="dark"]) {
+    --tw-bg: #171717;
+    --tw-text: #f5f5f5;
+    --tw-surface: #262626;
+    --tw-primary: #3b82f6;
+    --tw-secondary: #9ca3af;
+    --tw-accent: #6366f1;
+    --tw-success: #16a34a;
+    --tw-warning: #ca8a04;
+    --tw-danger: #b91c1c;
+  }
+}
+
+@theme {
+  --color-background: var(--tw-bg);
+  --color-foreground: var(--tw-text);
+  --color-surface: var(--tw-surface);
+
+  --color-primary: var(--tw-primary);
+  --color-secondary: var(--tw-secondary);
+  --color-accent: var(--tw-accent);
+
+  --color-success: var(--tw-success);
+  --color-warning: var(--tw-warning);
+  --color-danger: var(--tw-danger);
+}
