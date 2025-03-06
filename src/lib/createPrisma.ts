@@ -1,6 +1,7 @@
+import { Category, Product, User } from "@/types";
+
 import { prisma } from "./prisma";
 import { slugify } from "./slugify";
-import { Category, Product, User } from "@/types";
 
 export const createCategories = async (categories: Category[]) => {
   for (const category of categories) {

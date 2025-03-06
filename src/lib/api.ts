@@ -1,5 +1,6 @@
-import apiClient from "./axios";
 import { Category, Product, User } from "@/types";
+
+import apiClient from "./axios";
 
 export const api = {
   getProducts: async (): Promise<Product[]> => {
