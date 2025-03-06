@@ -2,7 +2,8 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 
-import { inter } from "@/ui/font";
+import { inter } from "@/ui/fonts";
+import { Sidebar } from "@/ui/navigation/Sidebar";
 
 import { Providers } from "./providers";
 
@@ -20,7 +21,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className}`}>
         <Providers>
-          <main>{children}</main>
+          <Sidebar />
+          <main className="ml-sidebar min-h-screen text-foreground bg-background">
+            {children}
+          </main>
         </Providers>
       </body>
     </html>

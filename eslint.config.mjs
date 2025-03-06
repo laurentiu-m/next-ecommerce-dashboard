@@ -46,7 +46,6 @@ const eslintConfig = [
             },
           ],
           pathGroupsExcludedImportTypes: ["react"],
-          "newlines-between": "always",
           alphabetize: {
             order: "asc",
             caseInsensitive: true,
