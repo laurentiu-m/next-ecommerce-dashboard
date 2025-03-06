@@ -40,4 +40,6 @@
   --color-success: var(--tw-success);
   --color-warning: var(--tw-warning);
   --color-danger: var(--tw-danger);
+
+  --spacing-sidebar: 352px;
 }
