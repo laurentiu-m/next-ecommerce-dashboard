@@ -1,5 +1,5 @@
 import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/16/solid";
-import { montserrat } from "@/ui/fonts";
+import { montserrat } from "@/components/ui/fonts";
 import { MenuItems } from "./MenuItems";
 
 export const Sidebar = () => {

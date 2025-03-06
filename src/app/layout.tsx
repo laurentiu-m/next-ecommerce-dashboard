@@ -2,8 +2,9 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 
-import { inter } from "@/ui/fonts";
-import { Sidebar } from "@/ui/navigation/Sidebar";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { Topbar } from "@/components/layout/Topbar";
+import { inter } from "@/components/ui/fonts";
 
 import { Providers } from "./providers";
 
@@ -22,7 +23,8 @@ export default function RootLayout({
       <body className={`${inter.className}`}>
         <Providers>
           <Sidebar />
-          <main className="ml-sidebar min-h-screen text-foreground bg-background">
+          <Topbar />
+          <main className="ml-sidebar pt-topbar min-h-screen text-foreground bg-background">
             {children}
           </main>
         </Providers>
