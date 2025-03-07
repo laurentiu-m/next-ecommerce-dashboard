@@ -2,10 +2,11 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 
-import { Sidebar } from "@/components/layout/Sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
 import { Topbar } from "@/components/layout/Topbar";
 import { inter } from "@/components/ui/fonts";
 
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
@@ -22,11 +23,14 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className}`}>
         <Providers>
-          <Sidebar />
-          <Topbar />
-          <main className="ml-sidebar pt-topbar-h w-topbar-w min-h-screen text-foreground bg-background">
-            {children}
-          </main>
+          <SidebarProvider>
+            <AppSidebar />
+            <Topbar />
+            <main className="ml-sidebar pt-topbar-h w-topbar-w min-h-screen text-foreground bg-background ">
+              <SidebarTrigger />
+              {children}
+            </main>
+          </SidebarProvider>
         </Providers>
       </body>
     </html>
