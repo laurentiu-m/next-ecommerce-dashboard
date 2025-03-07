@@ -1,4 +1,4 @@
-import { Category, Product, User } from "@/types";
+import { Category, Product, Customer } from "@/types";
 
 import { prisma } from "./prisma";
 import { slugify } from "./slugify";
@@ -11,33 +11,25 @@ export const createCategories = async (categories: Category[]) => {
   }
 };
 
-export const createUsers = async (users: User[]) => {
-  for (const user of users) {
-    await prisma.user.create({
+export const createCustomers = async (customers: Customer[]) => {
+  for (const customer of customers) {
+    await prisma.customer.create({
       data: {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        age: user.age,
-        gender: user.gender,
-        email: user.email,
-        username: user.username,
-        phone: user.phone,
-        role: "USER",
+        firstName: customer.firstName,
+        lastName: customer.lastName,
+        age: customer.age,
+        gender: customer.gender,
+        email: customer.email,
+        username: customer.username,
+        phone: customer.phone,
       },
     });
   }
 
-  await prisma.user.upsert({
-    where: { username: "admin" },
-    update: {},
-    create: {
-      firstName: "Admin",
-      lastName: "Admin",
-      age: 99,
-      gender: "Male",
+  await prisma.user.create({
+    data: {
       email: "admin@email.com",
       username: "admin",
-      phone: "123456",
       role: "ADMIN",
     },
   });
