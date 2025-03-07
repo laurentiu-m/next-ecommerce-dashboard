@@ -2,16 +2,16 @@ import { api } from "@/lib/api";
 import {
   createCategories,
   createProducts,
-  createUsers,
+  createCustomers,
 } from "@/lib/createPrisma";
 import { prisma } from "@/lib/prisma";
 
 const main = async () => {
-  const users = await api.getUsers();
+  const customers = await api.getCustomers();
   const categories = await api.getCategories();
   const products = await api.getProducts();
 
-  await createUsers(users);
+  await createCustomers(customers);
   await createCategories(categories);
   await createProducts(products);
 

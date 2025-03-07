@@ -1,4 +1,4 @@
-import { Category, Product, User } from "@/types";
+import { Category, Product, Customer } from "@/types";
 
 import apiClient from "./axios";
 
@@ -13,7 +13,7 @@ export const api = {
     return data;
   },
 
-  getUsers: async (): Promise<User[]> => {
+  getCustomers: async (): Promise<Customer[]> => {
     const { data } = await apiClient.get("/users?limit=50");
     return data.users;
   },

@@ -1,4 +1,4 @@
-export type User = {
+export type Customer = {
   firstName: string;
   lastName: string;
   age: number;

@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Customer {
   id        String   @id @default(uuid())
   firstName String
   lastName  String
@@ -22,10 +22,9 @@ model User {
   email     String   @unique
   username  String   @unique
   phone     String
-  role      Role     @default(USER)
   createdAt DateTime @default(now())
 
-  @@map("users")
+  @@map("customers")
 }
 
 model Product {
@@ -51,6 +50,14 @@ model Category {
   products Product[]
 
   @@map("categories")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  email     String   @unique
+  createdAt DateTime @default(now())
+  role      Role     @default(USER)
 }
 
 enum Role {
