@@ -24,7 +24,7 @@ export default function RootLayout({
         <Providers>
           <Sidebar />
           <Topbar />
-          <main className="ml-sidebar pt-topbar min-h-screen text-foreground bg-background">
+          <main className="ml-sidebar pt-topbar-h w-topbar-w min-h-screen text-foreground bg-background">
             {children}
           </main>
         </Providers>

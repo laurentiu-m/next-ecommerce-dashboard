@@ -44,4 +44,6 @@
   --spacing-sidebar: 300px;
   --spacing-topbar-h: 80px;
   --spacing-topbar-w: calc(100% - var(--spacing-sidebar));
+  --spacing-stat-card-w: 320px;
+  --spacing-stat-card-h: 150px;
 }
