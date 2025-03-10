@@ -23,22 +23,24 @@ model Customer {
   username  String   @unique
   phone     String
   createdAt DateTime @default(now())
+  Order     Order[]
 
   @@map("customers")
 }
 
 model Product {
-  id          String   @id @default(uuid())
-  slug        String   @unique
+  id          String      @id @default(uuid())
+  slug        String      @unique
   title       String
   description String
   price       Float
-  rating      Float    @default(0.0)
+  rating      Float       @default(0.0)
   stock       Int
   thumbnail   String
-  createdAt   DateTime @default(now())
+  createdAt   DateTime    @default(now())
   categoryId  String
-  category    Category @relation(fields: [categoryId], references: [id])
+  category    Category    @relation(fields: [categoryId], references: [id])
+  OrderItem   OrderItem[]
 
   @@map("products")
 }
@@ -50,6 +52,29 @@ model Category {
   products Product[]
 
   @@map("categories")
+}
+
+model Order {
+  id         String      @id @default(uuid())
+  customerId String
+  customer   Customer    @relation(fields: [customerId], references: [id])
+  createdAt  DateTime    @default(now())
+  total      Float
+  items      OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float
+
+  @@map("order_items")
 }
 
 model User {
