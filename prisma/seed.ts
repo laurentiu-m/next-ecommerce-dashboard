@@ -4,7 +4,7 @@ import {
   createProducts,
   createCustomers,
   createOrders,
-} from "@/lib/createPrisma";
+} from "@/lib/create-prisma";
 import { prisma } from "@/lib/prisma";
 
 const main = async () => {

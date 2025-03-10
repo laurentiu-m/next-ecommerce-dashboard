@@ -8,6 +8,7 @@
   --spacing-sidebar: 18rem;
   --spacing-topbar-h: 5rem;
   --spacing-topbar-w: calc(100% - var(--spacing-sidebar));
+  --spacing-stat: 20rem;
 }
 
 :root {
