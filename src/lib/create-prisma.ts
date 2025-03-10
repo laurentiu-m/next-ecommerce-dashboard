@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { Category, Product, Customer } from "@/types";
+import { Product, Customer, Category } from "@/types";
 
 import { prisma } from "./prisma";
 import { slugify } from "./slugify";
@@ -51,9 +51,21 @@ export const createProducts = async (products: Product[]) => {
   };
 
   for (const product of products) {
+    const slug = slugify(product.title);
+
+    const existingProduct = await prisma.product.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    if (existingProduct) {
+      continue;
+    }
+
     await prisma.product.create({
       data: {
-        slug: slugify(product.title),
+        slug,
         title: product.title,
         description: product.description,
         price: product.price,
@@ -61,6 +73,11 @@ export const createProducts = async (products: Product[]) => {
         stock: product.stock,
         thumbnail: product.thumbnail,
         categoryId: await getCategoryId(product.category),
+        images: {
+          create: product.images.map((imageUrl: string) => ({
+            url: imageUrl,
+          })),
+        },
       },
     });
   }

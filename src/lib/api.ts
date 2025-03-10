@@ -1,16 +1,20 @@
-import { Category, Product, Customer } from "@/types";
+import { categories } from "@/constants/categories";
+import { Product, Customer } from "@/types";
 
 import apiClient from "./axios";
 
 export const api = {
   getProducts: async (): Promise<Product[]> => {
-    const { data } = await apiClient.get("/products?limit=50");
-    return data.products;
-  },
+    const res = await Promise.all(
+      categories.map(async (category) => {
+        const { data } = await apiClient.get(
+          `/products/category/${category.slug}`
+        );
+        return data.products;
+      })
+    );
 
-  getCategories: async (): Promise<Category[]> => {
-    const { data } = await apiClient.get("/products/categories");
-    return data;
+    return res.flat();
   },
 
   getCustomers: async (): Promise<Customer[]> => {
