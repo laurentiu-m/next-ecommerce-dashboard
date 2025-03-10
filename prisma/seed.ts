@@ -3,6 +3,7 @@ import {
   createCategories,
   createProducts,
   createCustomers,
+  createOrders,
 } from "@/lib/createPrisma";
 import { prisma } from "@/lib/prisma";
 
@@ -14,6 +15,7 @@ const main = async () => {
   await createCustomers(customers);
   await createCategories(categories);
   await createProducts(products);
+  await createOrders();
 
   console.log("Database seeded successfully");
 };

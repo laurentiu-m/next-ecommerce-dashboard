@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { Category, Product, Customer } from "@/types";
 
 import { prisma } from "./prisma";
@@ -62,5 +63,47 @@ export const createProducts = async (products: Product[]) => {
         categoryId: await getCategoryId(product.category),
       },
     });
+  }
+};
+
+export const createOrders = async () => {
+  const customersPrisma = await prisma.customer.findMany();
+  const productsPrisma = await prisma.product.findMany();
+
+  for (const customer of customersPrisma) {
+    const numberOfOrders = faker.number.int({ min: 1, max: 5 });
+
+    for (let i = 0; i < numberOfOrders; i++) {
+      const order = await prisma.order.create({
+        data: {
+          customerId: customer.id,
+          total: 0,
+        },
+      });
+
+      let orderTotal = 0;
+
+      const numberOfItems = faker.number.int({ min: 1, max: 3 });
+      for (let j = 0; j < numberOfItems; j++) {
+        const product = faker.helpers.arrayElement(productsPrisma);
+        const quantity = faker.number.int({ min: 1, max: 5 });
+        const linePrice = product.price * quantity;
+        orderTotal += linePrice;
+
+        await prisma.orderItem.create({
+          data: {
+            orderId: order.id,
+            productId: product.id,
+            quantity: quantity,
+            price: product.price,
+          },
+        });
+      }
+
+      await prisma.order.update({
+        where: { id: order.id },
+        data: { total: orderTotal },
+      });
+    }
   }
 };
