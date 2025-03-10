@@ -6,7 +6,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { Topbar } from "@/components/layout/Topbar";
 import { inter } from "@/components/ui/fonts";
 
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
@@ -27,7 +27,6 @@ export default function RootLayout({
             <AppSidebar />
             <Topbar />
             <main className="ml-sidebar pt-topbar-h w-topbar-w min-h-screen text-foreground bg-background ">
-              <SidebarTrigger />
               {children}
             </main>
           </SidebarProvider>

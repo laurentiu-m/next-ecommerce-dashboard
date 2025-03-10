@@ -1,4 +1,3 @@
-import { HomeIcon, ArchiveBoxIcon, UsersIcon } from "@heroicons/react/16/solid";
 import { LogOutIcon } from "lucide-react";
 import {
   Sidebar,
@@ -9,54 +8,26 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { AppSidebarMenu } from "./app-sidebar-menu";
 import { montserrat } from "./ui/fonts";
-
-const items = [
-  {
-    icon: <HomeIcon className="size-6" />,
-    title: "Dashboard",
-    url: "/dashboard",
-  },
-  {
-    icon: <ArchiveBoxIcon className="size-6" />,
-    title: "Products",
-    url: "/products",
-  },
-  {
-    icon: <UsersIcon className="size-6" />,
-    title: "Users",
-    url: "/users",
-  },
-];
 
 export const AppSidebar = () => {
   return (
     <Sidebar>
       <SidebarContent className="p-8">
-        <SidebarGroup className="p-0">
+        <SidebarGroup className="p-0 gap-8">
           <SidebarHeader
             className={`text-2xl uppercase font-semibold tracking-wide ${montserrat.className}`}
           >
             NextPanel
           </SidebarHeader>
-          <SidebarGroupLabel className="font-normal">
-            Main Menu
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton className="py-6 px-4" asChild>
-                    <a href={item.url}>
-                      {item.icon}
-                      <span className="text-base">{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+          <SidebarGroupContent className="flex flex-col gap-3">
+            <SidebarGroupLabel className="font-normal">
+              Main Menu
+            </SidebarGroupLabel>
+            <SidebarMenu className="gap-2">
+              <AppSidebarMenu />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -64,12 +35,10 @@ export const AppSidebar = () => {
 
       <SidebarFooter className="p-8">
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton>
-              <LogOutIcon className="size-10" />
-              <span>Logout</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+          <button className="flex items-center gap-3 p-4 rounded-lg cursor-pointer text-sidebar-ring transition-colors hover:bg-secondary hover:text-sidebar-foreground">
+            <LogOutIcon className="size-6" />
+            <span>Logout</span>
+          </button>
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>

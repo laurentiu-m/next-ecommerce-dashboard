@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { UserIcon } from "@heroicons/react/16/solid";
-import { ThemeSwitch } from "@/components/ui/ThemeSwitch";
+import { ThemeSwitch } from "@/components/theme-switch";
 import { ROUTES } from "@/constants";
 
 type RoutePath = keyof typeof ROUTES;
