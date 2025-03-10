@@ -1,33 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import * as React from "react";
 import { SunIcon, MoonIcon } from "@heroicons/react/16/solid";
+import * as SwitchPrimitive from "@radix-ui/react-switch";
+
 import { useTheme } from "next-themes";
 
-export const ThemeSwitch = () => {
+export const SwitchTheme = () => {
   const { setTheme, resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setMounted(true);
   }, []);
 
   if (!mounted) return null;
 
+  const handleSwitchTheme = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
+
   return (
-    <button
-      className="w-[70px] h-[35px] relative flex items-center justify-center bg-background border-2 border-surface rounded-2xl cursor-pointer"
-      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+    <SwitchPrimitive.Root
+      data-slot="switch"
+      onClick={handleSwitchTheme}
+      className="peer data-[state=checked]:bg-input data-[state=unchecked]:bg-input focus-visible:border-ring focus-visible:ring-ring/50 inline-flex h-7 w-14 shrink-0 items-center rounded-full border-2 border-transparent shadow-xs cursor-pointer transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50"
     >
-      <div
-        className={`${resolvedTheme === "dark" ? "translate-x-0" : "translate-x-9"} left-0 bg-foreground w-6 h-6 absolute flex items-center justify-center mx-1 rounded-full transition-all transform`}
+      <SwitchPrimitive.Thumb
+        data-slot="switch-thumb"
+        className="bg-background pointer-events-none flex items-center justify-center size-6 rounded-full ring-0 shadow-lg transition-transform data-[state=checked]:translate-x-7 data-[state=unchecked]:translate-x-0"
       >
         {resolvedTheme === "dark" ? (
-          <MoonIcon className="size-4 text-background" />
+          <MoonIcon className="size-4" />
         ) : (
-          <SunIcon className="size-4 text-background" />
+          <SunIcon className="size-4" />
         )}
-      </div>
-    </button>
+      </SwitchPrimitive.Thumb>
+    </SwitchPrimitive.Root>
   );
 };

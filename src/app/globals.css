@@ -3,53 +3,11 @@
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
-/* 
-@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-
-@layer base {
-  :where([data-theme="light"]) {
-    --tw-bg: #ffffff;
-    --tw-text: #141414;
-    --tw-surface: #e0e0e0;
-    --tw-primary: #2563eb;
-    --tw-secondary: #757575;
-    --tw-accent: #4f46e5;
-    --tw-success: #22c55e;
-    --tw-warning: #eab308;
-    --tw-danger: #dc2626;
-  }
-
-  :where([data-theme="dark"]) {
-    --tw-bg: #171717;
-    --tw-text: #f5f5f5;
-    --tw-surface: #2c2c2c;
-    --tw-primary: #3b82f6;
-    --tw-secondary: #999999;
-    --tw-accent: #6366f1;
-    --tw-success: #16a34a;
-    --tw-warning: #ca8a04;
-    --tw-danger: #b91c1c;
-  }
-} */
 
 @theme {
-  /* --color-background: var(--tw-bg);
-  --color-foreground: var(--tw-text);
-  --color-surface: var(--tw-surface);
-
-  --color-primary: var(--tw-primary);
-  --color-secondary: var(--tw-secondary);
-  --color-accent: var(--tw-accent);
-
-  --color-success: var(--tw-success);
-  --color-warning: var(--tw-warning);
-  --color-danger: var(--tw-danger); */
-
-  --spacing-sidebar: 300px;
-  --spacing-topbar-h: 80px;
+  --spacing-sidebar: 18rem;
+  --spacing-topbar-h: 5rem;
   --spacing-topbar-w: calc(100% - var(--spacing-sidebar));
-  --spacing-stat-card-w: 320px;
-  --spacing-stat-card-h: 150px;
 }
 
 :root {

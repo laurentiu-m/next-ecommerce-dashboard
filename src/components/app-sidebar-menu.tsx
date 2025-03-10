@@ -29,7 +29,7 @@ export const AppSidebarMenu = () => {
     <Link
       key={item.title}
       href={item.url}
-      className={`${pathname === item.url ? "bg-secondary text-sidebar-foreground pointer-events-none" : "text-sidebar-ring hover:bg-secondary hover:text-sidebar-foreground"} flex items-center gap-3 p-4 rounded-lg transition-colors`}
+      className={`${pathname === item.url ? "bg-sidebar-border text-sidebar-foreground pointer-events-none" : "text-sidebar-ring hover:bg-sidebar-border hover:text-sidebar-foreground"} flex items-center gap-3 p-4 rounded-lg transition-colors`}
     >
       {item.icon}
       <span className="text-base">{item.title}</span>

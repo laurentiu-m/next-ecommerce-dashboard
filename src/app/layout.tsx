@@ -3,7 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 import { AppSidebar } from "@/components/app-sidebar";
-import { Topbar } from "@/components/layout/Topbar";
+import { Topbar } from "@/components/topbar";
 import { inter } from "@/components/ui/fonts";
 
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -26,7 +26,7 @@ export default function RootLayout({
           <SidebarProvider>
             <AppSidebar />
             <Topbar />
-            <main className="ml-sidebar pt-topbar-h w-topbar-w min-h-screen text-foreground bg-background ">
+            <main className="pt-topbar-h w-topbar-w min-h-screen text-foreground bg-background ">
               {children}
             </main>
           </SidebarProvider>

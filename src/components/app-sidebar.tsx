@@ -15,7 +15,7 @@ import { montserrat } from "./ui/fonts";
 export const AppSidebar = () => {
   return (
     <Sidebar>
-      <SidebarContent className="p-8">
+      <SidebarContent className="px-8 py-5 bg-background">
         <SidebarGroup className="p-0 gap-8">
           <SidebarHeader
             className={`text-2xl uppercase font-semibold tracking-wide ${montserrat.className}`}
@@ -33,9 +33,9 @@ export const AppSidebar = () => {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="p-8">
+      <SidebarFooter className="p-8 bg-background">
         <SidebarMenu>
-          <button className="flex items-center gap-3 p-4 rounded-lg cursor-pointer text-sidebar-ring transition-colors hover:bg-secondary hover:text-sidebar-foreground">
+          <button className="flex items-center gap-3 p-4 rounded-lg cursor-pointer text-sidebar-ring transition-colors hover:bg-sidebar-border hover:text-sidebar-foreground">
             <LogOutIcon className="size-6" />
             <span>Logout</span>
           </button>
