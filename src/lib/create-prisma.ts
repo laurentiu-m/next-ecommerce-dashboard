@@ -23,6 +23,7 @@ export const createCustomers = async (customers: Customer[]) => {
         email: customer.email,
         username: customer.username,
         phone: customer.phone,
+        createdAt: faker.date.between({ from: "2024-01-01", to: Date.now() }),
       },
     });
   }
@@ -37,7 +38,13 @@ export const createCustomers = async (customers: Customer[]) => {
 };
 
 export const createProducts = async (products: Product[]) => {
+  const categoryCache = new Map<string, string>();
+
   const getCategoryId = async (categoryName: string) => {
+    if (categoryCache.has(categoryName)) {
+      return categoryCache.get(categoryName);
+    }
+
     const category = await prisma.category.findUnique({
       where: {
         slug: categoryName,
@@ -47,7 +54,12 @@ export const createProducts = async (products: Product[]) => {
       },
     });
 
-    return category?.id as string;
+    if (category) {
+      categoryCache.set(categoryName, category.id);
+      return category.id;
+    }
+
+    return null;
   };
 
   for (const product of products) {
@@ -63,6 +75,13 @@ export const createProducts = async (products: Product[]) => {
       continue;
     }
 
+    const categoryId = await getCategoryId(product.category);
+
+    if (!categoryId) {
+      console.log(`Category not found for product: ${product.title}`);
+      continue;
+    }
+
     await prisma.product.create({
       data: {
         slug,
@@ -72,7 +91,8 @@ export const createProducts = async (products: Product[]) => {
         rating: product.rating,
         stock: product.stock,
         thumbnail: product.thumbnail,
-        categoryId: await getCategoryId(product.category),
+        categoryId,
+        createdAt: faker.date.between({ from: "2024-01-01", to: Date.now() }),
         images: {
           create: product.images.map((imageUrl: string) => ({
             url: imageUrl,
@@ -94,6 +114,7 @@ export const createOrders = async () => {
       const order = await prisma.order.create({
         data: {
           customerId: customer.id,
+          createdAt: faker.date.between({ from: "2024-01-01", to: Date.now() }),
           total: 0,
         },
       });
