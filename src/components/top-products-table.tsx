@@ -24,7 +24,7 @@ export const TopProductsTable = async () => {
   });
 
   return (
-    <div className="flex flex-col w-full gap-2">
+    <div className="flex flex-1 flex-col w-full gap-2">
       <h2 className="font-medium text-xl">Top Products</h2>
       <Table>
         <TableHeader>

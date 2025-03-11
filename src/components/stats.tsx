@@ -1,13 +1,13 @@
 "use server";
 
 import { UsersIcon, PackageIcon, CoinsIcon, PiggyBankIcon } from "lucide-react";
-import { formatNumber } from "@/lib/format-number";
+import { format } from "@/lib/format";
 import { prisma } from "@/lib/prisma";
 import { StatCard } from "./stat-card";
 
 export const Stats = async () => {
-  const totalCustomers = formatNumber(await prisma.customer.count());
-  const totalProducts = formatNumber(await prisma.product.count());
+  const totalCustomers = format.number(await prisma.customer.count());
+  const totalProducts = format.number(await prisma.product.count());
 
   const revenue =
     (
@@ -15,7 +15,7 @@ export const Stats = async () => {
         _sum: { total: true },
       })
     )._sum.total ?? 0;
-  const totalRevenue = formatNumber(revenue);
+  const totalRevenue = format.number(revenue);
 
   const productsSold =
     (
@@ -23,7 +23,7 @@ export const Stats = async () => {
         _sum: { quantity: true },
       })
     )._sum.quantity ?? 0;
-  const totalProductsSold = formatNumber(productsSold);
+  const totalProductsSold = format.number(productsSold);
 
   const items = [
     {

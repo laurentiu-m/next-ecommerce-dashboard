@@ -1,3 +1,4 @@
+import { SalesDataChart } from "@/components/sales-data-chart";
 import { Stats } from "@/components/stats";
 import { TopProductsTable } from "@/components/top-products-table";
 
@@ -8,8 +9,9 @@ export default function DashboardPage() {
         <Stats />
       </div>
 
-      <div className="flex gap-8">
-        <TopProductsTable />
+      <SalesDataChart />
+
+      <div className="flex items-center justify-between gap-8">
         <TopProductsTable />
       </div>
     </div>
