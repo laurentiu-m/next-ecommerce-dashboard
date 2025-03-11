@@ -2,7 +2,8 @@ import { Suspense } from "react";
 import { SalesDataChart } from "@/components/sales-data-chart";
 import { SkeletonStats } from "@/components/skeletons";
 import { Stats } from "@/components/stats";
-import { TopProductsTable } from "@/components/top-products-table";
+import { TopOrderedProductsTable } from "@/components/top-ordered-products-table";
+import { TopRatedProductsTable } from "@/components/top-rated-products-table";
 
 export default function DashboardPage() {
   return (
@@ -15,8 +16,9 @@ export default function DashboardPage() {
 
       <SalesDataChart />
 
-      <div className="flex items-center justify-between gap-8">
-        <TopProductsTable />
+      <div className="flex items-center justify-between gap-6">
+        <TopRatedProductsTable />
+        <TopOrderedProductsTable />
       </div>
     </div>
   );
