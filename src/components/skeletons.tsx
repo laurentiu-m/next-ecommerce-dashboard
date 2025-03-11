@@ -1,4 +1,10 @@
-import { Card } from "./ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
 import { Skeleton } from "./ui/skeleton";
 
 export const SkeletonSalesDataChart = () => {
@@ -48,5 +54,23 @@ export const SkeletonThemeSwitch = () => {
     <div className="w-14 h-7 bg-secondary rounded-xl flex justify-center items-center relative">
       <Skeleton className="absolute left-1 w-5 h-5 rounded-full" />
     </div>
+  );
+};
+
+export const SkeletonTopProductTable = () => {
+  return (
+    <Card className="flex flex-1 flex-col gap-5 h-[490px]">
+      <CardHeader>
+        <CardTitle>
+          <Skeleton className="w-50 h-5" />
+        </CardTitle>
+        <CardDescription>
+          <Skeleton className="w-80 h-5" />
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex w-full h-full">
+        <Skeleton className="w-full h-full" />
+      </CardContent>
+    </Card>
   );
 };
