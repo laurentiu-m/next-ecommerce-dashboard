@@ -5,6 +5,7 @@ import { SunIcon, MoonIcon } from "@heroicons/react/16/solid";
 import * as SwitchPrimitive from "@radix-ui/react-switch";
 
 import { useTheme } from "next-themes";
+import { SkeletonThemeSwitch } from "./skeletons";
 
 export const SwitchTheme = () => {
   const { setTheme, resolvedTheme } = useTheme();
@@ -14,7 +15,7 @@ export const SwitchTheme = () => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted) return <SkeletonThemeSwitch />;
 
   const handleSwitchTheme = () => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));

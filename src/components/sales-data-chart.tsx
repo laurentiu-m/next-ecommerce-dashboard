@@ -26,7 +26,7 @@ import { years, yearsArr } from "@/constants/chart";
 import { getSalesData } from "@/lib/chart";
 import { format } from "@/lib/format";
 import { SalesDataType } from "@/types/chart";
-import { SkeletonSalesDataChart } from "./skeletons/skeleton-sales-data-chart";
+import { SkeletonSalesDataChart } from "./skeletons";
 
 type YearKey = keyof typeof years;
 
