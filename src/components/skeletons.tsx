@@ -59,7 +59,7 @@ export const SkeletonThemeSwitch = () => {
 
 export const SkeletonTopProductTable = () => {
   return (
-    <Card className="flex flex-1 flex-col gap-5 h-[490px]">
+    <Card className="flex flex-1 flex-col gap-5 h-top-products-h">
       <CardHeader>
         <CardTitle>
           <Skeleton className="w-50 h-5" />
@@ -73,4 +73,8 @@ export const SkeletonTopProductTable = () => {
       </CardContent>
     </Card>
   );
+};
+
+export const SkeletonImage = () => {
+  return <Skeleton className="w-full h-full" />;
 };

@@ -10,6 +10,7 @@
   --spacing-topbar-w: calc(100% - var(--spacing-sidebar));
   --spacing-stat: 20rem;
   --spacing-sales-chart: 30rem;
+  --spacing-top-products-h: 500px;
 }
 
 :root {

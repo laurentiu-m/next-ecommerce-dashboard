@@ -1,6 +1,5 @@
 "use server";
 
-import Image from "next/image";
 import {
   Table,
   TableBody,
@@ -11,6 +10,7 @@ import {
 } from "@/components/ui/table";
 
 import { prisma } from "@/lib/prisma";
+import { ImageComponent } from "./image-component";
 import {
   Card,
   CardContent,
@@ -31,7 +31,7 @@ export const TopRatedProductsTable = async () => {
   });
 
   return (
-    <Card className="flex flex-1 flex-col gap-3">
+    <Card className="flex flex-1 flex-col gap-3 h-top-products-h">
       <CardHeader>
         <CardTitle className="font-medium text-xl">
           Top Rated Products
@@ -39,7 +39,7 @@ export const TopRatedProductsTable = async () => {
         <CardDescription>Highest-rated products by users.</CardDescription>
       </CardHeader>
       <CardContent>
-        <Table className="w-full">
+        <Table className="w-full h-[400px]">
           <TableHeader>
             <TableRow>
               <TableHead className="w-12 text-center">No.</TableHead>
@@ -56,16 +56,14 @@ export const TopRatedProductsTable = async () => {
                   {index + 1}
                 </TableCell>
                 <TableCell className="flex gap-2 items-center">
-                  <Image
+                  <ImageComponent
                     src={product.thumbnail}
-                    alt={product.title}
-                    width={50}
-                    height={50}
+                    title={product.title}
+                    width="50px"
+                    height="50px"
                   />
                   <div className="flex flex-col gap-1">
-                    <h3 className="w-[220px] truncate overflow-hidden whitespace-nowrap text-ellipsis">
-                      {product.title}
-                    </h3>
+                    <h3>{product.title}</h3>
                     <p className="text-xs text-ring">{product.category.name}</p>
                   </div>
                 </TableCell>
