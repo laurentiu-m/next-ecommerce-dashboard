@@ -39,24 +39,19 @@ const chartConfig = {
 
 export function SalesDataChart() {
   const [timeRange, setTimeRange] = useState(yearsArr[0]);
-  const [orders, setOrders] = useState<SalesDataType>([]);
+  const [chartData, setChartData] = useState<SalesDataType>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getData = async () => {
       setIsLoading(false);
       const data = await getSalesData(timeRange as YearKey);
-      setOrders(data);
+      setChartData(data);
     };
     getData();
   }, [timeRange]);
 
   if (isLoading) return <SkeletonSalesDataChart />;
-
-  const chartData = orders.map((order) => ({
-    date: format.dateShort(order.createdAt),
-    revenue: order.total,
-  }));
 
   return (
     <Card className="p-3 w-full h-sales-chart flex flex-col justify-center">

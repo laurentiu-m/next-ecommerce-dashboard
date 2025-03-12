@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { CustomersAgeChart } from "@/components/customers-age-chart";
 import { CustomersPieChart } from "@/components/customers-pie-chart";
 import { SalesDataChart } from "@/components/sales-data-chart";
 import { SkeletonStats, SkeletonTopProductTable } from "@/components/skeletons";
@@ -26,7 +27,10 @@ export default function DashboardPage() {
         </Suspense>
       </div>
 
-      <CustomersPieChart />
+      <div className="flex items-center gap-6">
+        <CustomersPieChart />
+        <CustomersAgeChart />
+      </div>
     </div>
   );
 }

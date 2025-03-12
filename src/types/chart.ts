@@ -1,11 +1,15 @@
 export type SalesDataType = {
-  createdAt: Date;
-  total: number;
-  id: string;
+  data: string;
+  revenue: number;
 }[];
 
 export type CustomerCountType = {
   count: number;
   year: string;
   fill: string;
+}[];
+
+export type CustomerAgeDataType = {
+  age: string;
+  count: number;
 }[];

@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { Label, Pie, PieChart } from "recharts";
 
 import {
@@ -34,10 +34,10 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export const CustomersPieChart = () => {
-  const [chartData, setChartData] = React.useState<CustomerCountType>();
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [chartData, setChartData] = useState<CustomerCountType>();
+  const [isLoading, setIsLoading] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const getData = async () => {
       const data = await getCustomersCount();
       setChartData(data);
@@ -52,13 +52,16 @@ export const CustomersPieChart = () => {
   const totalCustomers = chartData?.reduce((acc, val) => acc + val.count, 0);
 
   return (
-    <Card className="flex flex-col w-[350px] h-[420px]">
+    <Card className="flex flex-col w-[400px] h-[500px]">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Customer Registration by Year</CardTitle>
+        <CardTitle className="text-xl">Customer Registration by Year</CardTitle>
         <CardDescription>Comparison of customer registrations</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
-        <ChartContainer config={chartConfig} className="mx-auto aspect-square">
+        <ChartContainer
+          config={chartConfig}
+          className="mx-auto aspect-square h-full w-full"
+        >
           <PieChart>
             <ChartTooltip
               cursor={false}
@@ -68,7 +71,7 @@ export const CustomersPieChart = () => {
               data={chartData}
               dataKey="count"
               nameKey="year"
-              innerRadius={85}
+              innerRadius={105}
               strokeWidth={5}
             >
               <Label
@@ -84,14 +87,14 @@ export const CustomersPieChart = () => {
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
+                          className="fill-foreground text-4xl font-bold"
                         >
                           {totalCustomers?.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy ?? 0) + 24}
-                          className="fill-muted-foreground"
+                          className="fill-muted-foreground text-sm"
                         >
                           Customers
                         </tspan>
