@@ -22,6 +22,7 @@ export const ImageComponent = ({ src, title, width, height }: Props) => {
         src={src}
         alt={title}
         fill
+        sizes="w-full"
         className={`transition-opacity duration-300 ${
           isLoaded ? "opacity-100" : "opacity-0"
         }`}

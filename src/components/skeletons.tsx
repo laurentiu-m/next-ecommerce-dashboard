@@ -103,3 +103,18 @@ export const SkeletonCustomerBarChart = () => {
     </Card>
   );
 };
+
+export const SkeletonLatestOrder = () => {
+  return (
+    <Card className="flex flex-col gap-3 p-3 w-full h-[480px]">
+      <div className="flex flex-col gap-2 border-b px-8 py-5">
+        <Skeleton className="w-50 h-5" />
+        <Skeleton className="w-70 h-5" />
+      </div>
+
+      <div className="w-full h-full p-6">
+        <Skeleton className="w-full h-full" />
+      </div>
+    </Card>
+  );
+};

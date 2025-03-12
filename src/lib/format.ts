@@ -10,4 +10,12 @@ export const format = {
   dateShort: (date: Date) => {
     return date.toLocaleString("default", { month: "short", day: "2-digit" });
   },
+
+  fullDate: (date: Date) => {
+    return date.toLocaleString("default", {
+      month: "long",
+      day: "2-digit",
+      year: "numeric",
+    });
+  },
 };
