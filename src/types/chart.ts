@@ -3,3 +3,9 @@ export type SalesDataType = {
   total: number;
   id: string;
 }[];
+
+export type CustomerCountType = {
+  count: number;
+  year: string;
+  fill: string;
+}[];

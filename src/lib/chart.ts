@@ -1,6 +1,6 @@
 "use server";
 
-import { years } from "@/constants/chart";
+import { years, yearsArr } from "@/constants/chart";
 import { prisma } from "./prisma";
 
 type YearKey = keyof typeof years;
@@ -8,7 +8,7 @@ type YearKey = keyof typeof years;
 export const getSalesData = async (timeRange: YearKey) => {
   const year = years[timeRange];
 
-  const orders = await prisma.order.findMany({
+  return await prisma.order.findMany({
     where: {
       createdAt: {
         gte: year.start,
@@ -24,6 +24,25 @@ export const getSalesData = async (timeRange: YearKey) => {
       total: true,
     },
   });
+};
 
-  return orders;
+export const getCustomersCount = async () => {
+  const result = await Promise.all(
+    yearsArr.map(async (year, index) => {
+      const currYear = years[year as YearKey];
+
+      const count = await prisma.customer.count({
+        where: {
+          createdAt: {
+            gte: currYear.start,
+            lte: currYear.end,
+          },
+        },
+      });
+
+      return { count, year: year, fill: `var(--chart-${index + 1})` };
+    })
+  );
+
+  return result;
 };

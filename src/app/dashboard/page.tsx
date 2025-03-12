@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { CustomersPieChart } from "@/components/customers-pie-chart";
 import { SalesDataChart } from "@/components/sales-data-chart";
 import { SkeletonStats, SkeletonTopProductTable } from "@/components/skeletons";
 import { Stats } from "@/components/stats";
@@ -24,6 +25,8 @@ export default function DashboardPage() {
           <TopOrderedProductsTable />
         </Suspense>
       </div>
+
+      <CustomersPieChart />
     </div>
   );
 }

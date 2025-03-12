@@ -78,3 +78,15 @@ export const SkeletonTopProductTable = () => {
 export const SkeletonImage = () => {
   return <Skeleton className="w-full h-full" />;
 };
+
+export const SkeletonCustomerPieChart = () => {
+  return (
+    <Card className="w-[350px] h-[420px] flex flex-col items-center justify-center px-7">
+      <div className="flex flex-col gap-3 items-center">
+        <Skeleton className="w-60 h-5" />
+        <Skeleton className="w-50 h-5" />
+      </div>
+      <Skeleton className="w-full h-full" />
+    </Card>
+  );
+};
