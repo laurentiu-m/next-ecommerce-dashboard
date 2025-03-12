@@ -22,9 +22,7 @@ export default function RootLayout({
         <Providers>
           <SidebarProvider>
             <AppSidebar />
-
             <Topbar />
-
             <main className="pt-topbar-h w-topbar-w min-h-screen text-foreground bg-background ">
               {children}
             </main>
