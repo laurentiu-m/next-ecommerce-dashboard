@@ -1,9 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { SunIcon, MoonIcon } from "@heroicons/react/16/solid";
 import * as SwitchPrimitive from "@radix-ui/react-switch";
-
+import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { SkeletonThemeSwitch } from "./skeletons";
 

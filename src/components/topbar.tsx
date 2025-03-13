@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { UserIcon } from "@heroicons/react/16/solid";
+import { UserIcon } from "lucide-react";
 import { SwitchTheme } from "@/components/theme-switch";
 import { ROUTES } from "@/constants";
 
