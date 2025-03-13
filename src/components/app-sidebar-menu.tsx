@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -46,15 +46,54 @@ const items = [
 
 export const AppSidebarMenu = () => {
   const pathname = usePathname();
-  const [isProductsOpen, setIsProductsOpen] = useState(false);
+
+  const initOpenState = () => {
+    const openState: Record<string, boolean> = {};
+
+    items.forEach((item) => {
+      if (item.children) {
+        const isChildActive = item.children.some((subItem) =>
+          pathname.includes(subItem.url)
+        );
+        openState[item.title] = isChildActive;
+      }
+    });
+
+    return openState;
+  };
+
+  const [openStates, setOpenStates] = useState(initOpenState);
+
+  useEffect(() => {
+    const newOpenStates = { ...openStates };
+    let hasChanges = false;
+
+    items.forEach((item) => {
+      if (item.children) {
+        const isChildActive = item.children.some((subItem) =>
+          pathname.startsWith(subItem.url)
+        );
+        if (isChildActive && !newOpenStates[item.title]) {
+          newOpenStates[item.title] = true;
+          hasChanges = true;
+        }
+      }
+    });
+
+    if (hasChanges) {
+      setOpenStates(newOpenStates);
+    }
+  }, [pathname, openStates]);
 
   return items.map((item) => {
     const isChildActive = item.children?.some((subItem) =>
       pathname.startsWith(subItem.url)
     );
 
+    const isOpen = openStates[item.title] || false;
+
     const getButtonStyle = () => {
-      if (isProductsOpen) {
+      if (isOpen) {
         return "text-sidebar-foreground";
       }
 
@@ -66,8 +105,13 @@ export const AppSidebarMenu = () => {
     return item.children ? (
       <Collapsible
         key={item.title}
-        open={isProductsOpen}
-        onOpenChange={setIsProductsOpen}
+        open={isOpen}
+        onOpenChange={(open) =>
+          setOpenStates((prev) => ({
+            ...prev,
+            [item.title]: open,
+          }))
+        }
         className="group/collapsible"
       >
         <SidebarMenuItem>
@@ -79,7 +123,7 @@ export const AppSidebarMenu = () => {
                 {item.icon}
                 <span>{item.title}</span>
               </span>
-              {isProductsOpen ? (
+              {isOpen ? (
                 <ChevronUp className="size-5" />
               ) : (
                 <ChevronDown className="size-5" />
