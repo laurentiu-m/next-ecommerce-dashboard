@@ -1,38 +1,124 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArchiveIcon, HomeIcon, UsersIcon } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@radix-ui/react-collapsible";
+import {
+  ArchiveIcon,
+  ChevronDown,
+  ChevronUp,
+  HomeIcon,
+  PackageIcon,
+  UsersIcon,
+} from "lucide-react";
+import { SidebarMenuItem, SidebarMenuSub } from "./ui/sidebar";
 
 const items = [
   {
-    icon: <HomeIcon className="size-6" />,
+    icon: <HomeIcon className="size-5" />,
     title: "Dashboard",
     url: "/dashboard",
   },
   {
-    icon: <ArchiveIcon className="size-6" />,
+    icon: <ArchiveIcon className="size-5" />,
     title: "Products",
-    url: "/products",
+    children: [
+      { title: "All Products", url: "/products" },
+      { title: "Categories", url: "/products/categories" },
+    ],
   },
   {
-    icon: <UsersIcon className="size-6" />,
-    title: "Users",
-    url: "/users",
+    icon: <PackageIcon className="size-5" />,
+    title: "Orders",
+    url: "/orders",
+  },
+  {
+    icon: <UsersIcon className="size-5" />,
+    title: "Customers",
+    url: "/customers",
   },
 ];
 
 export const AppSidebarMenu = () => {
   const pathname = usePathname();
+  const [isProductsOpen, setIsProductsOpen] = useState(false);
 
-  return items.map((item) => (
-    <Link
-      key={item.title}
-      href={item.url}
-      className={`${pathname === item.url ? "bg-sidebar-border text-sidebar-foreground pointer-events-none" : "text-sidebar-ring hover:bg-sidebar-border hover:text-sidebar-foreground"} flex items-center gap-3 p-4 rounded-lg transition-colors`}
-    >
-      {item.icon}
-      <span className="text-base">{item.title}</span>
-    </Link>
-  ));
+  return items.map((item) => {
+    const isChildActive = item.children?.some((subItem) =>
+      pathname.startsWith(subItem.url)
+    );
+
+    const getButtonStyle = () => {
+      if (isProductsOpen) {
+        return "text-sidebar-foreground";
+      }
+
+      return isChildActive
+        ? "bg-sidebar-border text-sidebar-foreground"
+        : "text-sidebar-ring hover:bg-sidebar-border hover:text-sidebar-foreground";
+    };
+
+    return item.children ? (
+      <Collapsible
+        key={item.title}
+        open={isProductsOpen}
+        onOpenChange={setIsProductsOpen}
+        className="group/collapsible"
+      >
+        <SidebarMenuItem>
+          <CollapsibleTrigger asChild>
+            <button
+              className={`flex items-center justify-between w-full p-3 rounded-md transition-colors cursor-pointer ${getButtonStyle()}`}
+            >
+              <span className="flex items-center gap-3">
+                {item.icon}
+                <span>{item.title}</span>
+              </span>
+              {isProductsOpen ? (
+                <ChevronUp className="size-5" />
+              ) : (
+                <ChevronDown className="size-5" />
+              )}
+            </button>
+          </CollapsibleTrigger>
+
+          <CollapsibleContent>
+            <SidebarMenuSub className="gap-2">
+              {item.children.map((subItem) => (
+                <Link
+                  key={subItem.title}
+                  href={subItem.url}
+                  className={`flex items-center gap-3 p-2 rounded-md transition-colors ${
+                    pathname === subItem.url
+                      ? "bg-sidebar-border text-sidebar-foreground pointer-events-none"
+                      : "text-sidebar-ring hover:bg-sidebar-border hover:text-sidebar-foreground"
+                  }`}
+                >
+                  {subItem.title}
+                </Link>
+              ))}
+            </SidebarMenuSub>
+          </CollapsibleContent>
+        </SidebarMenuItem>
+      </Collapsible>
+    ) : (
+      <Link
+        key={item.title}
+        href={item.url}
+        className={`flex items-center gap-3 p-3 rounded-md transition-colors ${
+          pathname === item.url
+            ? "bg-sidebar-border text-sidebar-foreground pointer-events-none"
+            : "text-sidebar-ring hover:bg-sidebar-border hover:text-sidebar-foreground"
+        }`}
+      >
+        {item.icon}
+        <span>{item.title}</span>
+      </Link>
+    );
+  });
 };

@@ -35,9 +35,9 @@ export const AppSidebar = () => {
 
       <SidebarFooter className="p-8 bg-background">
         <SidebarMenu>
-          <button className="flex items-center gap-3 p-4 rounded-lg cursor-pointer text-sidebar-ring transition-colors hover:bg-sidebar-border hover:text-sidebar-foreground">
-            <LogOutIcon className="size-6" />
-            <span>Logout</span>
+          <button className="flex items-center gap-3 p-3 rounded-lg cursor-pointer text-sidebar-ring transition-colors hover:bg-sidebar-border hover:text-sidebar-foreground">
+            <LogOutIcon className="size-5" />
+            <span className="text-sm">Logout</span>
           </button>
         </SidebarMenu>
       </SidebarFooter>
