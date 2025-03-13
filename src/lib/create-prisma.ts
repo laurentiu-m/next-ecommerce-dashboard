@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { Category, Product, Customer } from "@/types";
+import { Product, Customer, Category } from "@/types";
 
 import { prisma } from "./prisma";
 import { slugify } from "./slugify";
@@ -23,6 +23,7 @@ export const createCustomers = async (customers: Customer[]) => {
         email: customer.email,
         username: customer.username,
         phone: customer.phone,
+        createdAt: faker.date.between({ from: "2024-01-01", to: Date.now() }),
       },
     });
   }
@@ -37,7 +38,13 @@ export const createCustomers = async (customers: Customer[]) => {
 };
 
 export const createProducts = async (products: Product[]) => {
+  const categoryCache = new Map<string, string>();
+
   const getCategoryId = async (categoryName: string) => {
+    if (categoryCache.has(categoryName)) {
+      return categoryCache.get(categoryName);
+    }
+
     const category = await prisma.category.findUnique({
       where: {
         slug: categoryName,
@@ -47,20 +54,50 @@ export const createProducts = async (products: Product[]) => {
       },
     });
 
-    return category?.id as string;
+    if (category) {
+      categoryCache.set(categoryName, category.id);
+      return category.id;
+    }
+
+    return null;
   };
 
   for (const product of products) {
+    const slug = slugify(product.title);
+
+    const existingProduct = await prisma.product.findUnique({
+      where: {
+        slug,
+      },
+    });
+
+    if (existingProduct) {
+      continue;
+    }
+
+    const categoryId = await getCategoryId(product.category);
+
+    if (!categoryId) {
+      console.log(`Category not found for product: ${product.title}`);
+      continue;
+    }
+
     await prisma.product.create({
       data: {
-        slug: slugify(product.title),
+        slug,
         title: product.title,
         description: product.description,
         price: product.price,
         rating: product.rating,
         stock: product.stock,
         thumbnail: product.thumbnail,
-        categoryId: await getCategoryId(product.category),
+        categoryId,
+        createdAt: faker.date.between({ from: "2024-01-01", to: Date.now() }),
+        images: {
+          create: product.images.map((imageUrl: string) => ({
+            url: imageUrl,
+          })),
+        },
       },
     });
   }
@@ -77,6 +114,7 @@ export const createOrders = async () => {
       const order = await prisma.order.create({
         data: {
           customerId: customer.id,
+          createdAt: faker.date.between({ from: "2024-01-01", to: Date.now() }),
           total: 0,
         },
       });
