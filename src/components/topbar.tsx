@@ -2,8 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import { UserIcon } from "lucide-react";
-import { SwitchTheme } from "@/components/theme-switch";
 import { ROUTES } from "@/constants";
+import { ThemeToggle } from "./theme-toggle";
 
 type RoutePath = keyof typeof ROUTES;
 
@@ -17,7 +17,7 @@ export const Topbar = () => {
       <h2 className="text-xl font-medium">{currentPath}</h2>
 
       <div className="flex gap-5 items-center">
-        <SwitchTheme />
+        <ThemeToggle />
 
         <div className="flex gap-2 items-center justify-between">
           <div className="bg-border w-[35px] h-[35px] rounded-full flex items-center justify-center">
