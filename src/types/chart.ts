@@ -1,5 +1,5 @@
 export type SalesDataType = {
-  data: string;
+  date: string;
   revenue: number;
 }[];
 
