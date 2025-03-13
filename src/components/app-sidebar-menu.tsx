@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { HomeIcon, ArchiveBoxIcon, UsersIcon } from "@heroicons/react/16/solid";
+import { ArchiveIcon, HomeIcon, UsersIcon } from "lucide-react";
 
 const items = [
   {
@@ -11,7 +11,7 @@ const items = [
     url: "/dashboard",
   },
   {
-    icon: <ArchiveBoxIcon className="size-6" />,
+    icon: <ArchiveIcon className="size-6" />,
     title: "Products",
     url: "/products",
   },
