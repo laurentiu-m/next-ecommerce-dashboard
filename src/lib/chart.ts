@@ -27,7 +27,7 @@ export const getSalesData = async (timeRange: YearKey) => {
   });
 
   const result = data.map((order) => ({
-    data: format.dateShort(order.createdAt),
+    date: format.dateShort(order.createdAt),
     revenue: order.total,
   }));
 
