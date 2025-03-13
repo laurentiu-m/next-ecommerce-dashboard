@@ -1,16 +1,16 @@
 import { Suspense } from "react";
-import { CustomersAgeChart } from "@/components/customers-age-chart";
-import { CustomersPieChart } from "@/components/customers-pie-chart";
-import { LatestOrdersTable } from "@/components/latest-orders-table";
-import { SalesDataChart } from "@/components/sales-data-chart";
 import {
+  CustomersAgeChart,
+  CustomersPieChart,
+  LatestOrdersTable,
+  SalesDataChart,
   SkeletonLatestOrder,
   SkeletonStats,
   SkeletonTopProductTable,
-} from "@/components/skeletons";
-import { Stats } from "@/components/stats";
-import { TopOrderedProductsTable } from "@/components/top-ordered-products-table";
-import { TopRatedProductsTable } from "@/components/top-rated-products-table";
+  Stats,
+  TopOrderedProductsTable,
+  TopRatedProductsTable,
+} from "@/components/dashboard";
 
 export default function DashboardPage() {
   return (
@@ -23,7 +23,7 @@ export default function DashboardPage() {
 
       <SalesDataChart />
 
-      <div className="flex items-center justify-between gap-6">
+      <div className="flex flex-col gap-6 3xl:flex-row">
         <Suspense fallback={<SkeletonTopProductTable />}>
           <TopRatedProductsTable />
         </Suspense>
