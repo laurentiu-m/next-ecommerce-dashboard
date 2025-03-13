@@ -9,7 +9,7 @@ import { Skeleton } from "../ui/skeleton";
 
 export const SkeletonSalesDataChart = () => {
   return (
-    <div className="w-full h-sales-chart rounded-xl p-3 border flex flex-col items-center justify-between">
+    <div className="w-full h-[500px] rounded-xl p-3 border flex flex-col items-center justify-between">
       <div className="w-full flex items-center justify-between border-b px-8 py-5">
         <div className="flex flex-col gap-2">
           <Skeleton className="w-50 h-5" />
@@ -51,8 +51,8 @@ export const SkeletonStats = () => {
 
 export const SkeletonTopProductTable = () => {
   return (
-    <Card className="flex flex-1 flex-col gap-5 h-top-products-h">
-      <CardHeader>
+    <Card className="flex w-full flex-col p-8 h-[550px]">
+      <CardHeader className="flex gap-1 border-b pb-6 px-0">
         <CardTitle>
           <Skeleton className="w-50 h-5" />
         </CardTitle>
@@ -60,7 +60,7 @@ export const SkeletonTopProductTable = () => {
           <Skeleton className="w-80 h-5" />
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex w-full h-full">
+      <CardContent className="p-0 flex items-center  h-full">
         <Skeleton className="w-full h-full" />
       </CardContent>
     </Card>
@@ -69,32 +69,32 @@ export const SkeletonTopProductTable = () => {
 
 export const SkeletonCustomerPieChart = () => {
   return (
-    <Card className="w-[400px] h-[500px] flex flex-col items-center justify-center px-7">
-      <div className="flex flex-col gap-3 items-center">
+    <Card className="w-[400px] h-[500px] flex flex-col p-8">
+      <div className="flex flex-col gap-1 border-b pb-6 px-0">
         <Skeleton className="w-60 h-5" />
         <Skeleton className="w-50 h-5" />
       </div>
-      <Skeleton className="w-full h-full" />
+      <Skeleton className="p-0 flex items-center h-full" />
     </Card>
   );
 };
 
 export const SkeletonCustomerBarChart = () => {
   return (
-    <Card className="h-[500px] flex flex-1 flex-col px-6">
-      <div className="flex flex-col gap-2">
+    <Card className="h-[500px] flex flex-1 flex-col p-8">
+      <div className="flex flex-col gap-1 border-b pb-6 px-0">
         <Skeleton className="w-50 h-5" />
         <Skeleton className="w-80 h-5" />
       </div>
 
-      <Skeleton className="w-full h-full" />
+      <Skeleton className="p-0 flex items-center h-full" />
     </Card>
   );
 };
 
 export const SkeletonLatestOrder = () => {
   return (
-    <Card className="flex flex-col gap-3 p-3 w-full h-[480px]">
+    <Card className="flex flex-col gap-3 p-3 w-full h-[500px]">
       <div className="flex flex-col gap-2 border-b px-8 py-5">
         <Skeleton className="w-50 h-5" />
         <Skeleton className="w-70 h-5" />

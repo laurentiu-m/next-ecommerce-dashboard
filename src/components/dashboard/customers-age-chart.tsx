@@ -27,7 +27,6 @@ export const CustomersAgeChart = () => {
 
   useEffect(() => {
     const getData = async () => {
-      setIsLoading(true);
       const data = await getCustomersAgeCount();
       setChartData(data);
       setIsLoading(false);

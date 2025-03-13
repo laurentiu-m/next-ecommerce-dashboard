@@ -38,9 +38,10 @@ export function SalesDataChart() {
 
   useEffect(() => {
     const getData = async () => {
-      setIsLoading(false);
+      setIsLoading(true);
       const data = await getSalesData(timeRange as YearKey);
       setChartData(data);
+      setIsLoading(false);
     };
     getData();
   }, [timeRange]);

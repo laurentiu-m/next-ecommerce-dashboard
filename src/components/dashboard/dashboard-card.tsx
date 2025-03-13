@@ -31,7 +31,7 @@ export const DashboardCard = ({
         </div>
         {action}
       </CardHeader>
-      <CardContent className="p-0 flex items-center  h-full">
+      <CardContent className="p-0 flex items-center h-full">
         {children}
       </CardContent>
     </Card>
