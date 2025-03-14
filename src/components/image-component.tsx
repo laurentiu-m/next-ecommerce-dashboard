@@ -27,7 +27,7 @@ export const ImageComponent = ({ src, title, width, height }: Props) => {
           isLoaded ? "opacity-100" : "opacity-0"
         }`}
         onLoad={() => setIsLoaded(true)}
-        loading="eager"
+        priority={true}
       />
     </div>
   );
