@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 import {
@@ -11,6 +12,7 @@ import {
 } from "@/components/ui/chart";
 import { getCustomersAgeCount } from "@/lib/chart";
 import { CustomerAgeDataType } from "@/types/chart";
+
 import { DashboardCard } from "./dashboard-card";
 import { SkeletonCustomerBarChart } from "./skeletons";
 

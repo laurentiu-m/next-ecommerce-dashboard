@@ -2,6 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
+
 import { ImageComponent } from "@/components/image-component";
 import { SortButton } from "@/components/sort-button";
 import { Button } from "@/components/ui/button";

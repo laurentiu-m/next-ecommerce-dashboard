@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+
 import {
   ChartConfig,
   ChartContainer,
@@ -19,6 +21,7 @@ import { years, yearsArr } from "@/constants/chart";
 import { getSalesData } from "@/lib/chart";
 import { format } from "@/lib/format";
 import { SalesDataType } from "@/types/chart";
+
 import { DashboardCard } from "./dashboard-card";
 import { SkeletonSalesDataChart } from "./skeletons";
 

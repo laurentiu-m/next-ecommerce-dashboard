@@ -1,8 +1,10 @@
 "use server";
 
 import { UsersIcon, PackageIcon, CoinsIcon, PiggyBankIcon } from "lucide-react";
+
 import { format } from "@/lib/format";
 import { prisma } from "@/lib/prisma";
+
 import { StatCard } from "./stat-card";
 
 export const Stats = async () => {

@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
 import {
   Collapsible,
   CollapsibleContent,
@@ -16,6 +18,7 @@ import {
   PackageIcon,
   UsersIcon,
 } from "lucide-react";
+
 import { SidebarMenuItem, SidebarMenuSub } from "./ui/sidebar";
 
 const items = [

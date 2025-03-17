@@ -8,9 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
 import { prisma } from "@/lib/prisma";
+
 import { ImageComponent } from "../image-component";
+
 import { DashboardCard } from "./dashboard-card";
 
 export const TopOrderedProductsTable = async () => {

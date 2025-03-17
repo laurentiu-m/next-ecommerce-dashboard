@@ -1,4 +1,5 @@
 import { LogOutIcon } from "lucide-react";
+
 import {
   Sidebar,
   SidebarContent,
@@ -9,6 +10,7 @@ import {
   SidebarHeader,
   SidebarMenu,
 } from "@/components/ui/sidebar";
+
 import { AppSidebarMenu } from "./app-sidebar-menu";
 import { montserrat } from "./ui/fonts";
 

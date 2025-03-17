@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { Label, Pie, PieChart } from "recharts";
 
 import {
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/chart";
 import { getCustomersCount } from "@/lib/chart";
 import { CustomerCountType } from "@/types/chart";
+
 import { DashboardCard } from "./dashboard-card";
 import { SkeletonCustomerPieChart } from "./skeletons";
 

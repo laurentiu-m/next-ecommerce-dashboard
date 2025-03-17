@@ -1,6 +1,8 @@
 import { Column } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
+
 import { ProductType } from "@/types/product";
+
 import { Button } from "./ui/button";
 
 type Props = {
@@ -29,7 +31,9 @@ export const SortButton = ({ column, title, className }: Props) => {
       <Button
         variant="ghost"
         className="cursor-pointer"
-        onClick={() => column.toggleSorting()}
+        onClick={() => {
+          column.toggleSorting(column.getIsSorted() === "asc", true);
+        }}
       >
         {title}
         {handleSortIcon()}

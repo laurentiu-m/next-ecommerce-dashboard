@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/table";
 import { format } from "@/lib/format";
 import { prisma } from "@/lib/prisma";
+
 import { DashboardCard } from "./dashboard-card";
 
 export const LatestOrdersTable = async () => {

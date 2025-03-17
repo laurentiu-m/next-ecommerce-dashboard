@@ -1,8 +1,11 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+
 import { UserIcon } from "lucide-react";
+
 import { ROUTES } from "@/constants";
+
 import { ThemeToggle } from "./theme-toggle";
 
 type RoutePath = keyof typeof ROUTES;
