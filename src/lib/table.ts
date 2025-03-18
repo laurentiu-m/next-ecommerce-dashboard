@@ -1,27 +1,22 @@
 "use server";
 
-import { SortingState } from "@tanstack/react-table";
+import { validSortFieldsProducts } from "@/constants/table";
 
 import { prisma } from "./prisma";
 
-export const getProductsData = async () => {
-  return await prisma.product.findMany({
+export const getProductsData = async (sortBy: string, sortOrder: boolean) => {
+  const isValid = validSortFieldsProducts.includes(sortBy);
+
+  const products = await prisma.product.findMany({
+    orderBy: isValid
+      ? {
+          [sortBy]: sortOrder ? "desc" : "asc",
+        }
+      : undefined,
     include: {
       category: true,
     },
   });
-};
 
-export const getSortedProductsData = async (sorting: SortingState) => {
-  const orderByArray = sorting.map((option) => ({
-    [option.id]: option.desc ? "desc" : "asc",
-  }));
-  console.log("Order by array:", orderByArray);
-
-  return await prisma.product.findMany({
-    orderBy: orderByArray,
-    include: {
-      category: true,
-    },
-  });
+  return products;
 };

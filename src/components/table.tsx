@@ -21,7 +21,7 @@ export const TableComponent = <TData,>({ table }: TableProps<TData>) => {
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="hover:bg-background">
+              <TableRow key={headerGroup.id} className="hover:bg-muted/0">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id} className="p-4">
