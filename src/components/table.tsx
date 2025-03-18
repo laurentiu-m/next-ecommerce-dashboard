@@ -24,7 +24,7 @@ export const TableComponent = <TData,>({ table }: TableProps<TData>) => {
               <TableRow key={headerGroup.id} className="hover:bg-muted/0">
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="p-4">
+                    <TableHead key={header.id} className="p-2">
                       {header.isPlaceholder
                         ? null
                         : flexRender(

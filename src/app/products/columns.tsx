@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
+import { DropdownMenuTable } from "@/components/dropdown-menu-table";
 import { ImageComponent } from "@/components/image-component";
 import { SortButton } from "@/components/sort-button";
 import { Button } from "@/components/ui/button";
@@ -41,7 +42,15 @@ export const columns: ColumnDef<ProductType>[] = [
   },
   {
     accessorKey: "category",
-    header: () => <div className="text-center">Category</div>,
+    header: ({ column, table }) => (
+      <DropdownMenuTable
+        column={column}
+        title="Category"
+        className="text-center"
+        selectedCategories={table.options.meta?.selectedCategories}
+        setSelectedCategories={table.options.meta?.setSelectedCategories}
+      />
+    ),
     cell: ({ row }) => {
       const category: CategoryType = row.getValue("category");
 

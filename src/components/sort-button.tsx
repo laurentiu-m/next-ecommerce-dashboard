@@ -52,7 +52,7 @@ export const SortButton = ({ column, title, className }: Props) => {
             {handleSortIcon()}
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-30 z-20 bg-background border border-border rounded-md">
+        <DropdownMenuContent className="w-30 z-20 bg-background border border-border rounded-md overflow-hidden">
           <DropdownMenuSeparator />
           <DropdownMenuRadioGroup className="text-center hover:ring-0">
             {sortOrders.map((order) => (

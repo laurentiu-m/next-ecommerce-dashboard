@@ -23,6 +23,9 @@ export default function ProductsTable() {
   const searchParams = useSearchParams();
 
   const [data, setData] = useState<ProductType[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
+    new Set()
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   const initialSorting = useMemo(() => {
@@ -60,13 +63,17 @@ export default function ProductsTable() {
       const sortBy = sorting[0]?.id ?? "";
       const sortOrder = sorting[0]?.desc ?? "";
 
-      const fetchedData = await getProductsData(sortBy, sortOrder);
+      const fetchedData = await getProductsData(
+        sortBy,
+        sortOrder,
+        selectedCategories
+      );
       setData(fetchedData);
       setIsLoading(false);
     };
 
     fetchData();
-  }, [sorting]);
+  }, [sorting, selectedCategories]);
 
   const table = useReactTable({
     data,
@@ -77,6 +84,10 @@ export default function ProductsTable() {
     getSortedRowModel: getSortedRowModel(),
     manualSorting: true,
     enableMultiSort: false,
+    meta: {
+      selectedCategories,
+      setSelectedCategories,
+    },
   });
 
   if (isLoading) return <div>Loading...</div>;
