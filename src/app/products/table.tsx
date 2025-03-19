@@ -14,6 +14,7 @@ import {
 
 import { TableComponent } from "@/components/table";
 import { getProductsData } from "@/lib/table";
+import { handleCategoryChange, handleSortingChange } from "@/lib/urlHandlers";
 import { ProductType } from "@/types/product";
 
 import { columns } from "./columns";
@@ -25,50 +26,45 @@ export default function ProductsTable() {
   const [data, setData] = useState<ProductType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const initialSorting = useMemo(() => {
+  const sorting = useMemo(() => {
     const sortBy = searchParams.get("sortBy");
     const sortOrder = searchParams.get("sortOrder");
+
     return sortBy && sortOrder
       ? [{ id: sortBy, desc: sortOrder === "desc" }]
       : [];
   }, [searchParams]);
 
-  const [sorting, setSorting] = useState<SortingState>(initialSorting);
-  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
-    new Set()
-  );
+  const selectedCategories = useMemo(() => {
+    const categories = searchParams.get("categories");
+    return new Set(categories ? categories.split(",") : []);
+  }, [searchParams]);
 
-  const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
-    const newSorting =
-      typeof updater === "function" ? updater(sorting) : updater;
-    setSorting(updater);
+  const onSortingChange: OnChangeFn<SortingState> = (updater) => {
+    const updatedParams = handleSortingChange(searchParams, sorting, updater);
+    router.replace(`?${updatedParams.toString()}`, { scroll: false });
+  };
 
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (newSorting.length > 0) {
-      const { id, desc } = newSorting[0];
-      params.set("sortBy", id);
-      params.set("sortOrder", desc ? "desc" : "asc");
-    } else {
-      params.delete("sortBy");
-      params.delete("sortOrder");
-    }
-
-    router.replace(`?${params.toString()}`, { scroll: false });
+  const onCategoryChange = (category: string) => {
+    const updatedParams = handleCategoryChange(
+      searchParams,
+      selectedCategories,
+      category
+    );
+    router.replace(`?${updatedParams.toString()}`, { scroll: false });
   };
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
+
       const sortBy = sorting[0]?.id ?? "";
       const sortOrder = sorting[0]?.desc ?? "";
+      const categories = Array.from(selectedCategories);
 
-      const fetchedData = await getProductsData(
-        sortBy,
-        sortOrder,
-        selectedCategories
-      );
+      const fetchedData = await getProductsData(sortBy, sortOrder, categories);
       setData(fetchedData);
+
       setIsLoading(false);
     };
 
@@ -79,14 +75,14 @@ export default function ProductsTable() {
     data,
     columns,
     state: { sorting },
-    onSortingChange: handleSortingChange,
+    onSortingChange: onSortingChange,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     manualSorting: true,
     enableMultiSort: false,
     meta: {
       selectedCategories,
-      setSelectedCategories,
+      onCategoryChange,
     },
   });
 

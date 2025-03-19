@@ -1,5 +1,7 @@
 "use server";
 
+import { OnChangeFn, SortingState } from "@tanstack/react-table";
+
 import { validSortFieldsProducts } from "@/constants/table";
 
 import { prisma } from "./prisma";
@@ -7,11 +9,9 @@ import { prisma } from "./prisma";
 export const getProductsData = async (
   sortBy: string,
   sortOrder: boolean,
-  selectedCategories
+  categories
 ) => {
   const isValid = validSortFieldsProducts.includes(sortBy);
-
-  const categories = Array.from(selectedCategories);
 
   const products = await prisma.product.findMany({
     orderBy: isValid

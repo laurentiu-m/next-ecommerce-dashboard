@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,14 +11,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { getAllProductsCategories } from "@/lib/table";
 
-type Checked = DropdownMenuCheckboxItemProps["checked"];
-
 export const DropdownMenuTable = ({
   column,
   title,
   className,
   selectedCategories,
-  setSelectedCategories,
+  onCategoryChange,
 }) => {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -46,19 +42,11 @@ export const DropdownMenuTable = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="max-w-60">
-          {categories.map((category, index) => (
+          {categories.map((category) => (
             <DropdownMenuCheckboxItem
               key={category.id}
               checked={selectedCategories.has(category.slug)}
-              onCheckedChange={() => {
-                setSelectedCategories((prev) => {
-                  const newSet = new Set(prev);
-                  newSet.has(category.slug)
-                    ? newSet.delete(category.slug)
-                    : newSet.add(category.slug);
-                  return newSet;
-                });
-              }}
+              onCheckedChange={() => onCategoryChange(category.slug)}
             >
               {category.name}
             </DropdownMenuCheckboxItem>

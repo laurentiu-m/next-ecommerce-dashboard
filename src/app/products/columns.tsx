@@ -48,7 +48,7 @@ export const columns: ColumnDef<ProductType>[] = [
         title="Category"
         className="text-center"
         selectedCategories={table.options.meta?.selectedCategories}
-        setSelectedCategories={table.options.meta?.setSelectedCategories}
+        onCategoryChange={table.options.meta?.onCategoryChange}
       />
     ),
     cell: ({ row }) => {
