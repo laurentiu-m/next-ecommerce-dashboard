@@ -5,3 +5,5 @@ export const sortOrders = [
   { name: "Desc", value: "desc" },
   { name: "Reset", value: "" },
 ];
+
+export const actions = ["Edit", "Delete"];

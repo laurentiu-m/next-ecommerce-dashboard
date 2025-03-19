@@ -4,16 +4,16 @@ import { usePathname } from "next/navigation";
 
 import { UserIcon } from "lucide-react";
 
-import { ROUTES } from "@/constants";
+import { RouteTitles } from "@/constants";
 
-import { ThemeToggle } from "./theme-toggle";
+import { ThemeToggle } from "../theme-toggle";
 
-type RoutePath = keyof typeof ROUTES;
+type RoutePath = keyof typeof RouteTitles;
 
 export const Topbar = () => {
   const pathname = usePathname() as RoutePath;
 
-  const currentPath = ROUTES[pathname];
+  const currentPath = RouteTitles[pathname];
 
   return (
     <div className="fixed w-topbar-w h-topbar-h flex items-center justify-between ml-sidebar px-8 py-4 bg-background border-b border-border z-50">

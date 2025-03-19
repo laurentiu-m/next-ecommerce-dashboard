@@ -2,6 +2,24 @@ import { ReadonlyURLSearchParams } from "next/navigation";
 
 import { SortingState, Updater } from "@tanstack/react-table";
 
+export const getSorting = (searchParams: ReadonlyURLSearchParams) => {
+  const sortBy = searchParams.get("sortBy")?.trim();
+  const sortOrder = searchParams.get("sortOrder")?.trim();
+
+  if (!sortBy || (sortOrder !== "asc" && sortOrder !== "desc")) {
+    return [];
+  }
+
+  return [{ id: sortBy, desc: sortOrder === "desc" }];
+};
+
+export const getSelectedCategories = (
+  searchParams: ReadonlyURLSearchParams
+) => {
+  const categories = searchParams.get("categories");
+  return new Set(categories ? categories.split(",") : []);
+};
+
 export const handleSortingChange = (
   searchParams: ReadonlyURLSearchParams,
   sorting: {

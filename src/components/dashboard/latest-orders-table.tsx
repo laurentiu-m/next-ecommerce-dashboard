@@ -1,3 +1,6 @@
+import { format } from "@/lib";
+import { prisma } from "@/lib/prisma";
+
 import {
   Table,
   TableBody,
@@ -5,9 +8,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { format } from "@/lib/format";
-import { prisma } from "@/lib/prisma";
+} from "../ui";
 
 import { DashboardCard } from "./dashboard-card";
 

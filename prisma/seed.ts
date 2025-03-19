@@ -1,15 +1,15 @@
-import { categories as categoriesConstant } from "@/constants/categories";
+import { categories as categoriesConst } from "@/constants";
 import { api } from "@/lib/api";
 import {
   createCategories,
-  createProducts,
   createCustomers,
   createOrders,
-} from "@/lib/create-prisma";
-import { prisma } from "@/lib/prisma";
+  createProducts,
+  prisma,
+} from "@/lib/prisma";
 
 const main = async () => {
-  const categories = categoriesConstant;
+  const categories = categoriesConst;
   const customers = await api.getCustomers();
   const products = await api.getProducts();
 

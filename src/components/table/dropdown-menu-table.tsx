@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,30 +7,21 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getAllProductsCategories } from "@/lib/table";
+import { categories } from "@/constants";
+
+type Props = {
+  title: string;
+  className: string;
+  selectedCategories?: Set<string>;
+  onCategoryChange?: (category: string) => void;
+};
 
 export const DropdownMenuTable = ({
-  column,
   title,
   className,
   selectedCategories,
   onCategoryChange,
-}) => {
-  const [categories, setCategories] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const getData = async () => {
-      const data = await getAllProductsCategories();
-      setCategories(data);
-      setIsLoading(false);
-    };
-
-    getData();
-  }, []);
-
-  if (isLoading) return <div>Loading...</div>;
-
+}: Props) => {
   return (
     <div className={`${className}`}>
       <DropdownMenu>
@@ -44,9 +33,16 @@ export const DropdownMenuTable = ({
         <DropdownMenuContent className="max-w-60">
           {categories.map((category) => (
             <DropdownMenuCheckboxItem
-              key={category.id}
-              checked={selectedCategories.has(category.slug)}
-              onCheckedChange={() => onCategoryChange(category.slug)}
+              key={category.slug}
+              checked={
+                selectedCategories
+                  ? selectedCategories.has(category.slug)
+                  : false
+              }
+              onCheckedChange={() =>
+                onCategoryChange ? onCategoryChange(category.slug) : null
+              }
+              className="cursor-pointer"
             >
               {category.name}
             </DropdownMenuCheckboxItem>

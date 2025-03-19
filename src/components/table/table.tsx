@@ -1,14 +1,14 @@
 import { flexRender, Table as TableTanStack } from "@tanstack/react-table";
 
-import { Button } from "./ui/button";
 import {
+  Button,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from "./ui/table";
+} from "../ui";
 
 type TableProps<TData> = {
   table: TableTanStack<TData>;

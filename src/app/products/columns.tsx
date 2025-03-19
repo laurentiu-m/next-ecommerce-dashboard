@@ -1,21 +1,13 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
 
-import { DropdownMenuTable } from "@/components/dropdown-menu-table";
-import { ImageComponent } from "@/components/image-component";
-import { SortButton } from "@/components/sort-button";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { format } from "@/lib/format";
-import { CategoryType } from "@/types/category";
-import { ProductType } from "@/types/product";
+import { ImageComponent } from "@/components";
+import { DropdownMenuTable } from "@/components/table";
+import { DropdownMenuAction } from "@/components/table/dropdown-menu-action";
+import { SortButton } from "@/components/table/sort-button";
+import { format } from "@/lib";
+import { CategoryType, ProductType } from "@/types";
 
 export const columns: ColumnDef<ProductType>[] = [
   {
@@ -42,9 +34,8 @@ export const columns: ColumnDef<ProductType>[] = [
   },
   {
     accessorKey: "category",
-    header: ({ column, table }) => (
+    header: ({ table }) => (
       <DropdownMenuTable
-        column={column}
         title="Category"
         className="text-center"
         selectedCategories={table.options.meta?.selectedCategories}
@@ -89,20 +80,6 @@ export const columns: ColumnDef<ProductType>[] = [
   {
     id: "actions",
     header: () => <div className="text-center">Actions</div>,
-    cell: () => (
-      <div className="text-center">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    ),
+    cell: () => <DropdownMenuAction />,
   },
 ];

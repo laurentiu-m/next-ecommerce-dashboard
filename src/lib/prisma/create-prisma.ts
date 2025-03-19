@@ -1,11 +1,12 @@
 import { faker } from "@faker-js/faker";
 
-import { Product, Customer, Category } from "@/types";
+import { CategoryApi, CustomerApi, ProductApi } from "@/types";
+
+import { slugify } from "../slugify";
 
 import { prisma } from "./prisma";
-import { slugify } from "./slugify";
 
-export const createCategories = async (categories: Category[]) => {
+export const createCategories = async (categories: CategoryApi[]) => {
   for (const category of categories) {
     await prisma.category.create({
       data: { name: category.name, slug: category.slug },
@@ -13,7 +14,7 @@ export const createCategories = async (categories: Category[]) => {
   }
 };
 
-export const createCustomers = async (customers: Customer[]) => {
+export const createCustomers = async (customers: CustomerApi[]) => {
   for (const customer of customers) {
     await prisma.customer.create({
       data: {
@@ -38,7 +39,7 @@ export const createCustomers = async (customers: Customer[]) => {
   });
 };
 
-export const createProducts = async (products: Product[]) => {
+export const createProducts = async (products: ProductApi[]) => {
   const categoryCache = new Map<string, string>();
 
   const getCategoryId = async (categoryName: string) => {

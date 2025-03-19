@@ -1,6 +1,6 @@
 import { JSX } from "react";
 
-import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "../ui";
 
 type Props = {
   title: string;

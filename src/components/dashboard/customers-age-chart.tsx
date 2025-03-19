@@ -4,24 +4,14 @@ import { useEffect, useState } from "react";
 
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-import { getCustomersAgeCount } from "@/lib/chart";
-import { CustomerAgeDataType } from "@/types/chart";
+import { customersAgeChartConfig } from "@/constants";
+import { getCustomersAgeCount } from "@/lib/charts";
+import { CustomerAgeDataType } from "@/types";
+
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui";
 
 import { DashboardCard } from "./dashboard-card";
 import { SkeletonCustomerBarChart } from "./skeletons";
-
-const chartConfig = {
-  age: {
-    label: "Age",
-    color: "var(--chart-1)",
-  },
-} satisfies ChartConfig;
 
 export const CustomersAgeChart = () => {
   const [chartData, setChartData] = useState<CustomerAgeDataType>();
@@ -45,7 +35,10 @@ export const CustomersAgeChart = () => {
       description="An overview of customer counts categorized by age."
       className="w-full h-[500px]"
     >
-      <ChartContainer config={chartConfig} className="h-[350px] w-full">
+      <ChartContainer
+        config={customersAgeChartConfig}
+        className="h-[350px] w-full"
+      >
         <BarChart accessibilityLayer data={chartData}>
           <CartesianGrid vertical={false} />
           <XAxis

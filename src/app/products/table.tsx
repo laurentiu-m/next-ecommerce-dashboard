@@ -8,16 +8,30 @@ import {
   getCoreRowModel,
   getSortedRowModel,
   OnChangeFn,
+  RowData,
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 
 import { TableComponent } from "@/components/table";
+import {
+  getSelectedCategories,
+  getSorting,
+  handleCategoryChange,
+  handleSortingChange,
+} from "@/lib";
 import { getProductsData } from "@/lib/table";
-import { handleCategoryChange, handleSortingChange } from "@/lib/urlHandlers";
-import { ProductType } from "@/types/product";
+import { ProductType } from "@/types";
 
 import { columns } from "./columns";
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
+declare module "@tanstack/react-table" {
+  interface TableMeta<TData extends RowData> {
+    selectedCategories: Set<string>;
+    onCategoryChange: (category: string) => void;
+  }
+}
 
 export default function ProductsTable() {
   const router = useRouter();
@@ -26,19 +40,11 @@ export default function ProductsTable() {
   const [data, setData] = useState<ProductType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const sorting = useMemo(() => {
-    const sortBy = searchParams.get("sortBy");
-    const sortOrder = searchParams.get("sortOrder");
-
-    return sortBy && sortOrder
-      ? [{ id: sortBy, desc: sortOrder === "desc" }]
-      : [];
-  }, [searchParams]);
-
-  const selectedCategories = useMemo(() => {
-    const categories = searchParams.get("categories");
-    return new Set(categories ? categories.split(",") : []);
-  }, [searchParams]);
+  const sorting = useMemo(() => getSorting(searchParams), [searchParams]);
+  const selectedCategories = useMemo(
+    () => getSelectedCategories(searchParams),
+    [searchParams]
+  );
 
   const onSortingChange: OnChangeFn<SortingState> = (updater) => {
     const updatedParams = handleSortingChange(searchParams, sorting, updater);
@@ -59,7 +65,7 @@ export default function ProductsTable() {
       setIsLoading(true);
 
       const sortBy = sorting[0]?.id ?? "";
-      const sortOrder = sorting[0]?.desc ?? "";
+      const sortOrder = sorting[0]?.desc ? "desc" : "asc";
       const categories = Array.from(selectedCategories);
 
       const fetchedData = await getProductsData(sortBy, sortOrder, categories);

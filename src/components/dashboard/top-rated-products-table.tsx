@@ -1,5 +1,8 @@
 "use server";
 
+import { prisma } from "@/lib/prisma";
+
+import { ImageComponent } from "../image-component";
 import {
   Table,
   TableBody,
@@ -7,10 +10,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { prisma } from "@/lib/prisma";
-
-import { ImageComponent } from "../image-component";
+} from "../ui";
 
 import { DashboardCard } from "./dashboard-card";
 

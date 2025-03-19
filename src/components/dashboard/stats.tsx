@@ -2,7 +2,7 @@
 
 import { UsersIcon, PackageIcon, CoinsIcon, PiggyBankIcon } from "lucide-react";
 
-import { format } from "@/lib/format";
+import { format } from "@/lib";
 import { prisma } from "@/lib/prisma";
 
 import { StatCard } from "./stat-card";

@@ -1,10 +1,9 @@
 import "./globals.css";
 import type { Metadata } from "next";
 
-import { AppSidebar } from "@/components/app-sidebar";
-import { Topbar } from "@/components/topbar";
-import { inter } from "@/components/ui/fonts";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/sidebar";
+import { Topbar } from "@/components/topbar/topbar";
+import { inter, SidebarProvider } from "@/components/ui";
 
 import { Providers } from "./providers";
 

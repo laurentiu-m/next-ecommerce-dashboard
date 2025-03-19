@@ -1,18 +1,17 @@
+import { Column } from "@tanstack/react-table";
+import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
+
+import { sortOrders } from "@/constants/table";
+import { ProductType } from "@/types";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
-import { Column } from "@tanstack/react-table";
-import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
-
-import { sortOrders } from "@/constants/table";
-import { ProductType } from "@/types/product";
-
-import { Button } from "./ui/button";
+} from "../ui";
+import { Button } from "../ui/button";
 
 type Props = {
   column: Column<ProductType, unknown>;
@@ -46,21 +45,20 @@ export const SortButton = ({ column, title, className }: Props) => {
   return (
     <div className={`${className}`}>
       <DropdownMenu>
-        <DropdownMenuTrigger className="focus-visible:ring-0" asChild>
+        <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="cursor-pointer">
             {title}
             {handleSortIcon()}
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-30 z-20 bg-background border border-border rounded-md overflow-hidden">
-          <DropdownMenuSeparator />
-          <DropdownMenuRadioGroup className="text-center hover:ring-0">
+        <DropdownMenuContent>
+          <DropdownMenuRadioGroup value={isSorted ? "desc" : "asc"}>
             {sortOrders.map((order) => (
               <DropdownMenuRadioItem
                 key={order.value}
                 value={order.value}
                 onClick={() => handleSortOrder(order.value)}
-                className="cursor-pointer p-2 outline-0 hover:bg-border hover:text-primary"
+                className="cursor-pointer"
               >
                 {order.name}
               </DropdownMenuRadioItem>

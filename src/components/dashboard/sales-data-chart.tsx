@@ -2,37 +2,26 @@
 
 import { useEffect, useState } from "react";
 
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
-
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { years, yearsArr } from "@/constants/chart";
-import { getSalesData } from "@/lib/chart";
-import { format } from "@/lib/format";
-import { SalesDataType } from "@/types/chart";
+} from "@radix-ui/react-select";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+
+import { salesDataChartConfig, years, yearsArr } from "@/constants";
+import { format } from "@/lib";
+import { getSalesData } from "@/lib/charts";
+import { SalesDataType } from "@/types";
+
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui";
 
 import { DashboardCard } from "./dashboard-card";
 import { SkeletonSalesDataChart } from "./skeletons";
 
 type YearKey = keyof typeof years;
-
-const chartConfig = {
-  revenue: {
-    label: "Revenue",
-    color: "hsl(var(--chart-1))",
-  },
-} satisfies ChartConfig;
 
 export function SalesDataChart() {
   const [timeRange, setTimeRange] = useState(yearsArr[0]);
@@ -74,7 +63,10 @@ export function SalesDataChart() {
         </Select>
       }
     >
-      <ChartContainer config={chartConfig} className="h-[350px] w-full">
+      <ChartContainer
+        config={salesDataChartConfig}
+        className="h-[350px] w-full"
+      >
         <AreaChart data={chartData}>
           <defs>
             <linearGradient x1="0" y1="0" x2="0" y2="1">
@@ -97,8 +89,9 @@ export function SalesDataChart() {
                 formatter={(value, name) => (
                   <div className="flex min-w-[100px] gap-1 items-center text-xs text-muted-foreground">
                     <div className="bg-chart-1 w-2 h-2 rounded-xs" />
-                    {chartConfig[name as keyof typeof chartConfig]?.label ||
-                      name}
+                    {salesDataChartConfig[
+                      name as keyof typeof salesDataChartConfig
+                    ]?.label || name}
                     :
                     <div className="ml-auto flex items-baseline font-mono font-medium tabular-nums text-foreground">
                       ${format.number(value as number)}
