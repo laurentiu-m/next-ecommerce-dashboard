@@ -37,8 +37,6 @@ export const DropdownMenuTable = ({
 
   if (isLoading) return <div>Loading...</div>;
 
-  console.log(selectedCategories);
-
   return (
     <div className={`${className}`}>
       <DropdownMenu>
@@ -51,7 +49,7 @@ export const DropdownMenuTable = ({
           {categories.map((category, index) => (
             <DropdownMenuCheckboxItem
               key={category.id}
-              checked={selectedCategories.has(category.name)}
+              checked={selectedCategories.has(category.slug)}
               onCheckedChange={() => {
                 setSelectedCategories((prev) => {
                   const newSet = new Set(prev);

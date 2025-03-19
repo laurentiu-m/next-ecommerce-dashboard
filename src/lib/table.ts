@@ -11,7 +11,7 @@ export const getProductsData = async (
 ) => {
   const isValid = validSortFieldsProducts.includes(sortBy);
 
-  console.log(selectedCategories);
+  const categories = Array.from(selectedCategories);
 
   const products = await prisma.product.findMany({
     orderBy: isValid
@@ -19,6 +19,8 @@ export const getProductsData = async (
           [sortBy]: sortOrder ? "desc" : "asc",
         }
       : undefined,
+    where:
+      categories.length > 0 ? { category: { slug: { in: categories } } } : {},
     include: {
       category: true,
     },

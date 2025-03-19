@@ -23,9 +23,6 @@ export default function ProductsTable() {
   const searchParams = useSearchParams();
 
   const [data, setData] = useState<ProductType[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
-    new Set()
-  );
   const [isLoading, setIsLoading] = useState(true);
 
   const initialSorting = useMemo(() => {
@@ -37,6 +34,9 @@ export default function ProductsTable() {
   }, [searchParams]);
 
   const [sorting, setSorting] = useState<SortingState>(initialSorting);
+  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
+    new Set()
+  );
 
   const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
     const newSorting =
