@@ -1,4 +1,5 @@
 export const validSortFieldsProducts = ["title", "stock", "rating", "price"];
+export const validSortOrders = ["asc", "desc"];
 
 export const sortOrders = [
   { name: "Asc", value: "asc" },
@@ -7,3 +8,5 @@ export const sortOrders = [
 ];
 
 export const actions = ["Edit", "Delete"];
+
+export const rows = [10, 20, 30, 40, 50];

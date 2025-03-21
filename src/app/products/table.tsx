@@ -21,6 +21,7 @@ import {
   getSorting,
   handleCategoryChange,
   handleCurrentPageChange,
+  handlePageSizeChange,
   handleSortingChange,
 } from "@/lib";
 import { getProductsData } from "@/lib/table";
@@ -74,6 +75,11 @@ export default function ProductsTable() {
     router.replace(`?${updatedParams.toString()}`, { scroll: false });
   };
 
+  const onPageSizeChange = (pageSize: number) => {
+    const updatedParams = handlePageSizeChange(pageSize, searchParams);
+    router.replace(`?${updatedParams.toString()}`, { scroll: false });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -82,21 +88,48 @@ export default function ProductsTable() {
       const sortOrder = sorting[0]?.desc ? "desc" : "asc";
       const categories = Array.from(selectedCategories);
 
-      const { products, totalPages } = await getProductsData(
+      const {
+        products,
+        totalPages,
+        currentPage: newCurrentPage,
+        pageSize: newPageSize,
+        isValidSorting,
+      } = await getProductsData(
         sortBy,
         sortOrder,
         categories,
         currentPage,
         pageSize
       );
-      setData(products);
-      setTotalPages(totalPages);
 
-      setIsLoading(false);
+      if (!isValidSorting) {
+        const params = new URLSearchParams(searchParams);
+        params.delete("sortBy");
+        params.delete("sortOrder");
+        router.replace(`?${params.toString()}`, { scroll: false });
+      }
+
+      if (newCurrentPage !== currentPage || newPageSize !== pageSize) {
+        const params = new URLSearchParams(searchParams);
+        params.set("currentPage", newCurrentPage.toString());
+        params.set("pageSize", newPageSize.toString());
+        router.replace(`?${params.toString()}`, { scroll: false });
+      } else {
+        setData(products);
+        setTotalPages(totalPages);
+        setIsLoading(false);
+      }
     };
 
     fetchData();
-  }, [sorting, selectedCategories, currentPage, pageSize]);
+  }, [
+    sorting,
+    selectedCategories,
+    currentPage,
+    pageSize,
+    router,
+    searchParams,
+  ]);
 
   const table = useReactTable({
     data,
@@ -122,6 +155,7 @@ export default function ProductsTable() {
       pageSize={pageSize}
       totalPages={totalPages}
       onCurrentPageChange={onCurrentPageChange}
+      onPageSizeChange={onPageSizeChange}
     />
   );
 }

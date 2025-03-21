@@ -1,4 +1,6 @@
-import { flexRender, Table as TableTanStack } from "@tanstack/react-table";
+import { flexRender } from "@tanstack/react-table";
+
+import { TableProps } from "@/types/table";
 
 import {
   Table,
@@ -11,20 +13,13 @@ import {
 
 import { TablePagination } from "./table-pagination";
 
-type TableProps<TData> = {
-  table: TableTanStack<TData>;
-  currentPage: number;
-  pageSize: number;
-  totalPages: number;
-  onCurrentPageChange: (page: number) => void;
-};
-
 export const TableComponent = <TData,>({
   table,
   currentPage,
   pageSize,
   totalPages,
   onCurrentPageChange,
+  onPageSizeChange,
 }: TableProps<TData>) => {
   return (
     <div>
@@ -69,6 +64,7 @@ export const TableComponent = <TData,>({
         pageSize={pageSize}
         totalPages={totalPages}
         onCurrentPageChange={onCurrentPageChange}
+        onPageSizeChange={onPageSizeChange}
       />
     </div>
   );

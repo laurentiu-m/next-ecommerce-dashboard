@@ -88,3 +88,14 @@ export const handleCurrentPageChange = (
 
   return params;
 };
+
+export const handlePageSizeChange = (
+  pageSize: number,
+  searchParams: ReadonlyURLSearchParams
+) => {
+  const params = new URLSearchParams(searchParams.toString());
+
+  params.set("pageSize", String(pageSize));
+
+  return params;
+};
