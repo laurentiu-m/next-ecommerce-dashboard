@@ -1,7 +1,6 @@
 import { flexRender, Table as TableTanStack } from "@tanstack/react-table";
 
 import {
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -10,11 +9,23 @@ import {
   TableRow,
 } from "../ui";
 
+import { TablePagination } from "./table-pagination";
+
 type TableProps<TData> = {
   table: TableTanStack<TData>;
+  currentPage: number;
+  pageSize: number;
+  totalPages: number;
+  onCurrentPageChange: (page: number) => void;
 };
 
-export const TableComponent = <TData,>({ table }: TableProps<TData>) => {
+export const TableComponent = <TData,>({
+  table,
+  currentPage,
+  pageSize,
+  totalPages,
+  onCurrentPageChange,
+}: TableProps<TData>) => {
   return (
     <div>
       <div className="rounded-md border">
@@ -53,24 +64,12 @@ export const TableComponent = <TData,>({ table }: TableProps<TData>) => {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end gap-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
-      </div>
+      <TablePagination
+        currentPage={currentPage}
+        pageSize={pageSize}
+        totalPages={totalPages}
+        onCurrentPageChange={onCurrentPageChange}
+      />
     </div>
   );
 };

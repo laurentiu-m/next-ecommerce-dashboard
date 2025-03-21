@@ -22,6 +22,14 @@ type Props = {
 export const SortButton = ({ column, title, className }: Props) => {
   const isSorted = column.getIsSorted();
 
+  const getSortValue = () => {
+    if (isSorted === "asc") {
+      return "asc";
+    }
+
+    return isSorted === "desc" ? "desc" : "";
+  };
+
   const handleSortIcon = () => {
     if (isSorted === "asc") {
       return <ArrowDown className="size-4" />;
@@ -52,7 +60,7 @@ export const SortButton = ({ column, title, className }: Props) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuRadioGroup value={isSorted ? "desc" : "asc"}>
+          <DropdownMenuRadioGroup value={getSortValue()}>
             {sortOrders.map((order) => (
               <DropdownMenuRadioItem
                 key={order.value}

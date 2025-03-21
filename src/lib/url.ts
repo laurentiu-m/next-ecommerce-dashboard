@@ -20,6 +20,16 @@ export const getSelectedCategories = (
   return new Set(categories ? categories.split(",") : []);
 };
 
+export const getCurrentPage = (searchParams: ReadonlyURLSearchParams) => {
+  const currentPage = searchParams.get("currentPage");
+  return currentPage ? Number(currentPage) : 1;
+};
+
+export const getPageSize = (searchParams: ReadonlyURLSearchParams) => {
+  const pageSize = searchParams.get("pageSize");
+  return pageSize ? Number(pageSize) : 10;
+};
+
 export const handleSortingChange = (
   searchParams: ReadonlyURLSearchParams,
   sorting: {
@@ -64,6 +74,17 @@ export const handleCategoryChange = (
   } else {
     params.delete("categories");
   }
+
+  return params;
+};
+
+export const handleCurrentPageChange = (
+  page: number,
+  searchParams: ReadonlyURLSearchParams
+) => {
+  const params = new URLSearchParams(searchParams.toString());
+
+  params.set("currentPage", String(page));
 
   return params;
 };

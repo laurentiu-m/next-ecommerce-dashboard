@@ -15,9 +15,12 @@ import {
 
 import { TableComponent } from "@/components/table";
 import {
+  getCurrentPage,
+  getPageSize,
   getSelectedCategories,
   getSorting,
   handleCategoryChange,
+  handleCurrentPageChange,
   handleSortingChange,
 } from "@/lib";
 import { getProductsData } from "@/lib/table";
@@ -38,6 +41,7 @@ export default function ProductsTable() {
   const searchParams = useSearchParams();
 
   const [data, setData] = useState<ProductType[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
   const sorting = useMemo(() => getSorting(searchParams), [searchParams]);
@@ -45,6 +49,11 @@ export default function ProductsTable() {
     () => getSelectedCategories(searchParams),
     [searchParams]
   );
+  const currentPage = useMemo(
+    () => getCurrentPage(searchParams),
+    [searchParams]
+  );
+  const pageSize = useMemo(() => getPageSize(searchParams), [searchParams]);
 
   const onSortingChange: OnChangeFn<SortingState> = (updater) => {
     const updatedParams = handleSortingChange(searchParams, sorting, updater);
@@ -60,6 +69,11 @@ export default function ProductsTable() {
     router.replace(`?${updatedParams.toString()}`, { scroll: false });
   };
 
+  const onCurrentPageChange = (page: number) => {
+    const updatedParams = handleCurrentPageChange(page, searchParams);
+    router.replace(`?${updatedParams.toString()}`, { scroll: false });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -68,14 +82,21 @@ export default function ProductsTable() {
       const sortOrder = sorting[0]?.desc ? "desc" : "asc";
       const categories = Array.from(selectedCategories);
 
-      const fetchedData = await getProductsData(sortBy, sortOrder, categories);
-      setData(fetchedData);
+      const { products, totalPages } = await getProductsData(
+        sortBy,
+        sortOrder,
+        categories,
+        currentPage,
+        pageSize
+      );
+      setData(products);
+      setTotalPages(totalPages);
 
       setIsLoading(false);
     };
 
     fetchData();
-  }, [sorting, selectedCategories]);
+  }, [sorting, selectedCategories, currentPage, pageSize]);
 
   const table = useReactTable({
     data,
@@ -94,5 +115,13 @@ export default function ProductsTable() {
 
   if (isLoading) return <div>Loading...</div>;
 
-  return <TableComponent table={table} />;
+  return (
+    <TableComponent
+      table={table}
+      currentPage={currentPage}
+      pageSize={pageSize}
+      totalPages={totalPages}
+      onCurrentPageChange={onCurrentPageChange}
+    />
+  );
 }
