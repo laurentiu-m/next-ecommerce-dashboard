@@ -154,17 +154,15 @@ export const updateSearchParams = ({
   }
 
   if (safeCategories.length !== selectedCategories.size) {
-    const params = new URLSearchParams(searchParams);
     params.delete(TableParam.Categories);
     shouldUpdate = true;
   }
 
   if (newCurrentPage !== currentPage || newPageSize !== pageSize) {
-    const params = new URLSearchParams(searchParams);
     params.set(TableParam.CurrentPage, newCurrentPage.toString());
     params.set(TableParam.PageSize, newPageSize.toString());
     shouldUpdate = true;
   }
 
-  return shouldUpdate ? params : false;
+  return { shouldUpdate, params };
 };

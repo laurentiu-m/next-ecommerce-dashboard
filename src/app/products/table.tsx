@@ -105,7 +105,7 @@ export default function ProductsTable() {
         pageSize,
       });
 
-      const updateUrl = updateSearchParams({
+      const { shouldUpdate, params } = updateSearchParams({
         isValidSorting,
         safeCategories,
         selectedCategories,
@@ -116,12 +116,12 @@ export default function ProductsTable() {
         searchParams,
       });
 
-      if (!updateUrl) {
+      if (!shouldUpdate) {
         setData(products);
         setTotalPages(totalPages);
         setIsLoading(false);
       } else {
-        router.replace(`?${updateUrl.toString()}`, { scroll: false });
+        router.replace(`?${params.toString()}`, { scroll: false });
       }
     };
 

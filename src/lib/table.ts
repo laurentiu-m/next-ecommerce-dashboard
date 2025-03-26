@@ -69,6 +69,7 @@ export const getProductsData = async ({
     currentPage,
     totalPages
   );
+
   const skip = (safeCurrentPage - 1) * safePageSize;
 
   const {
