@@ -1,7 +1,7 @@
 import { Column } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 
-import { sortOrders } from "@/constants/table";
+import { Order, sortOrders } from "@/constants/table";
 import { ProductType } from "@/types";
 
 import {
@@ -22,21 +22,13 @@ type Props = {
 export const SortButton = ({ column, title, className }: Props) => {
   const isSorted = column.getIsSorted();
 
-  const getSortValue = () => {
-    if (isSorted === "asc") {
-      return "asc";
-    }
-
-    return isSorted === "desc" ? "desc" : "";
-  };
-
   const handleSortIcon = () => {
-    if (isSorted === "asc") {
-      return <ArrowDown className="size-4" />;
+    if (isSorted === Order.ASC) {
+      return <ArrowUp className="size-4" />;
     }
 
-    return isSorted === "desc" ? (
-      <ArrowUp className="size-4" />
+    return isSorted === Order.DESC ? (
+      <ArrowDown className="size-4" />
     ) : (
       <ArrowUpDown className="size-4" />
     );
@@ -45,7 +37,7 @@ export const SortButton = ({ column, title, className }: Props) => {
   const handleSortOrder = (order: string) => {
     if (!order) return column.clearSorting();
 
-    return order !== "asc"
+    return order !== Order.ASC
       ? column.toggleSorting(true)
       : column.toggleSorting(false);
   };
@@ -60,7 +52,7 @@ export const SortButton = ({ column, title, className }: Props) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuRadioGroup value={getSortValue()}>
+          <DropdownMenuRadioGroup value={!isSorted ? "" : isSorted}>
             {sortOrders.map((order) => (
               <DropdownMenuRadioItem
                 key={order.value}

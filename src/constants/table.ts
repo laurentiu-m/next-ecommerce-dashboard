@@ -10,3 +10,16 @@ export const sortOrders = [
 export const actions = ["Edit", "Delete"];
 
 export const rows = [10, 20, 30, 40, 50];
+
+export enum Order {
+  ASC = "asc",
+  DESC = "desc",
+}
+
+export enum TableParam {
+  SortBy = "sortBy",
+  SortOrder = "sortOrder",
+  CurrentPage = "currentPage",
+  PageSize = "pageSize",
+  Categories = "categories",
+}

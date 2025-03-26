@@ -7,7 +7,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { categories } from "@/constants";
+import { categoriesPrisma } from "@/constants";
 
 type Props = {
   title: string;
@@ -31,7 +31,7 @@ export const DropdownMenuTable = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="max-w-60">
-          {categories.map((category) => (
+          {categoriesPrisma.map((category) => (
             <DropdownMenuCheckboxItem
               key={category.slug}
               checked={

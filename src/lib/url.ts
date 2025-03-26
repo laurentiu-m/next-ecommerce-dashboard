@@ -2,31 +2,47 @@ import { ReadonlyURLSearchParams } from "next/navigation";
 
 import { SortingState, Updater } from "@tanstack/react-table";
 
-export const getSorting = (searchParams: ReadonlyURLSearchParams) => {
-  const sortBy = searchParams.get("sortBy")?.trim();
-  const sortOrder = searchParams.get("sortOrder")?.trim();
+import {
+  Order,
+  TableParam,
+  validSortFieldsProducts,
+  validSortOrders,
+} from "@/constants";
+import { UpdateSearchParamsProps } from "@/types/url";
 
-  if (!sortBy || (sortOrder !== "asc" && sortOrder !== "desc")) {
+export const getSorting = (searchParams: ReadonlyURLSearchParams) => {
+  const sortBy = searchParams.get(TableParam.SortBy)?.trim();
+  const sortOrder = searchParams
+    .get(TableParam.SortOrder)
+    ?.trim()
+    .toLocaleLowerCase();
+
+  if (!sortBy || !sortOrder || !validSortOrders.includes(sortOrder)) {
     return [];
   }
 
-  return [{ id: sortBy, desc: sortOrder === "desc" }];
+  return [
+    {
+      id: sortBy,
+      desc: sortOrder === Order.DESC,
+    },
+  ];
 };
 
 export const getSelectedCategories = (
   searchParams: ReadonlyURLSearchParams
 ) => {
-  const categories = searchParams.get("categories");
+  const categories = searchParams.get(TableParam.Categories);
   return new Set(categories ? categories.split(",") : []);
 };
 
 export const getCurrentPage = (searchParams: ReadonlyURLSearchParams) => {
-  const currentPage = searchParams.get("currentPage");
+  const currentPage = searchParams.get(TableParam.CurrentPage);
   return currentPage ? Number(currentPage) : 1;
 };
 
 export const getPageSize = (searchParams: ReadonlyURLSearchParams) => {
-  const pageSize = searchParams.get("pageSize");
+  const pageSize = searchParams.get(TableParam.PageSize);
   return pageSize ? Number(pageSize) : 10;
 };
 
@@ -44,11 +60,11 @@ export const handleSortingChange = (
 
   if (newSorting.length > 0) {
     const { id, desc } = newSorting[0];
-    params.set("sortBy", id);
-    params.set("sortOrder", desc ? "desc" : "asc");
+    params.set(TableParam.SortBy, id);
+    params.set(TableParam.SortOrder, desc ? Order.DESC : Order.ASC);
   } else {
-    params.delete("sortBy");
-    params.delete("sortOrder");
+    params.delete(TableParam.SortBy);
+    params.delete(TableParam.SortOrder);
   }
 
   return params;
@@ -70,9 +86,9 @@ export const handleCategoryChange = (
   const params = new URLSearchParams(searchParams.toString());
 
   if (updatedCategories.size) {
-    params.set("categories", Array.from(updatedCategories).join(","));
+    params.set(TableParam.Categories, Array.from(updatedCategories).join(","));
   } else {
-    params.delete("categories");
+    params.delete(TableParam.Categories);
   }
 
   return params;
@@ -84,7 +100,7 @@ export const handleCurrentPageChange = (
 ) => {
   const params = new URLSearchParams(searchParams.toString());
 
-  params.set("currentPage", String(page));
+  params.set(TableParam.CurrentPage, String(page));
 
   return params;
 };
@@ -95,7 +111,60 @@ export const handlePageSizeChange = (
 ) => {
   const params = new URLSearchParams(searchParams.toString());
 
-  params.set("pageSize", String(pageSize));
+  params.set(TableParam.PageSize, String(pageSize));
 
   return params;
+};
+
+export const handleSafeSortingParams = (
+  sortBy: string | null,
+  sortOrder: string | null
+) => {
+  if (!sortBy || !sortOrder) return true;
+
+  const isValidSortBy = validSortFieldsProducts.includes(sortBy);
+  const isValidSortOrder = validSortOrders.includes(sortOrder);
+
+  if (!isValidSortBy || !isValidSortOrder) return false;
+  return true;
+};
+
+export const updateSearchParams = ({
+  isValidSorting,
+  safeCategories,
+  selectedCategories,
+  newCurrentPage,
+  currentPage,
+  newPageSize,
+  pageSize,
+  searchParams,
+}: UpdateSearchParamsProps) => {
+  const params = new URLSearchParams(searchParams);
+  let shouldUpdate = false;
+
+  const isValidSortingParams = handleSafeSortingParams(
+    params.get(TableParam.SortBy),
+    params.get(TableParam.SortOrder)
+  );
+
+  if (!isValidSorting || !isValidSortingParams) {
+    params.delete(TableParam.SortBy);
+    params.delete(TableParam.SortOrder);
+    shouldUpdate = true;
+  }
+
+  if (safeCategories.length !== selectedCategories.size) {
+    const params = new URLSearchParams(searchParams);
+    params.delete(TableParam.Categories);
+    shouldUpdate = true;
+  }
+
+  if (newCurrentPage !== currentPage || newPageSize !== pageSize) {
+    const params = new URLSearchParams(searchParams);
+    params.set(TableParam.CurrentPage, newCurrentPage.toString());
+    params.set(TableParam.PageSize, newPageSize.toString());
+    shouldUpdate = true;
+  }
+
+  return shouldUpdate ? params : false;
 };

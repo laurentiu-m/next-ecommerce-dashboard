@@ -1,4 +1,4 @@
-export const categories = [
+export const categoriesPrisma = [
   { slug: "mens-shirts", name: "Men's Shirts" },
   { slug: "mens-shoes", name: "Men's Shoes" },
   { slug: "mens-watches", name: "Men's Watches" },
@@ -10,3 +10,5 @@ export const categories = [
   { slug: "womens-shoes", name: "Women's Shoes" },
   { slug: "womens-watches", name: "Women's Watches" },
 ];
+
+export const categoriesArr = categoriesPrisma.map((category) => category.slug);

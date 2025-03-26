@@ -1,10 +1,12 @@
 "use server";
 
+import { categoriesArr } from "@/constants";
 import {
   rows,
   validSortFieldsProducts,
   validSortOrders,
 } from "@/constants/table";
+import { getProductsTableProps } from "@/types/table";
 
 import { prisma } from "./prisma/prisma";
 
@@ -21,31 +23,45 @@ export const handleSafePage = async (
 };
 
 export const handleSafeSorting = async (sortBy: string, sortOrder: string) => {
+  if (!sortBy || !sortOrder)
+    return { isValid: true, sortBy: null, sortOrder: null };
+
   const isValidSort = validSortFieldsProducts.includes(sortBy);
   const isValidSortOrder = validSortOrders.includes(sortOrder);
 
-  return isValidSort && isValidSortOrder;
+  if (isValidSort && isValidSortOrder) {
+    return { isValid: true, sortBy, sortOrder };
+  }
+
+  return { isValid: false, sortBy: null, sortOrder: null };
 };
 
-export const getTotalProductsCount = async (categories?: string[]) => {
+export const handleSafeCategories = async (categories: string[]) => {
+  return categories.length > 0 &&
+    categories.every((category) => categoriesArr.includes(category))
+    ? categories
+    : [];
+};
+
+export const getTotalProductsCount = async (categories: string[]) => {
   const total = await prisma.product.count({
     where:
-      categories && categories.length > 0
-        ? { category: { slug: { in: categories } } }
-        : {},
+      categories.length > 0 ? { category: { slug: { in: categories } } } : {},
   });
 
   return total;
 };
 
-export const getProductsData = async (
-  sortBy: string,
-  sortOrder: "asc" | "desc",
-  categories: string[],
-  currentPage: number,
-  pageSize: number
-) => {
-  const totalCount = await getTotalProductsCount(categories);
+export const getProductsData = async ({
+  sortBy,
+  sortOrder,
+  categories,
+  currentPage,
+  pageSize,
+}: getProductsTableProps) => {
+  const safeCategories = await handleSafeCategories(categories);
+
+  const totalCount = await getTotalProductsCount(safeCategories);
   const totalPages = Math.ceil(totalCount / pageSize);
 
   const { safeCurrentPage, safePageSize } = await handleSafePage(
@@ -53,15 +69,25 @@ export const getProductsData = async (
     currentPage,
     totalPages
   );
-
-  const isValidSorting = await handleSafeSorting(sortBy, sortOrder);
-
   const skip = (safeCurrentPage - 1) * safePageSize;
 
+  const {
+    isValid,
+    sortBy: safeSortBy,
+    sortOrder: safeSortOrder,
+  } = await handleSafeSorting(sortBy, sortOrder);
+
+  const orderBy =
+    isValid && safeSortBy && safeSortOrder
+      ? { [safeSortBy]: safeSortOrder }
+      : undefined;
+
   const products = await prisma.product.findMany({
-    orderBy: isValidSorting ? { [sortBy]: sortOrder } : undefined,
+    orderBy,
     where:
-      categories.length > 0 ? { category: { slug: { in: categories } } } : {},
+      safeCategories.length > 0
+        ? { category: { slug: { in: safeCategories } } }
+        : {},
     include: {
       category: true,
     },
@@ -74,6 +100,7 @@ export const getProductsData = async (
     totalPages,
     currentPage: safeCurrentPage,
     pageSize: safePageSize,
-    isValidSorting,
+    isValidSorting: isValid,
+    safeCategories,
   };
 };

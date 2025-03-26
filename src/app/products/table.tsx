@@ -23,6 +23,7 @@ import {
   handleCurrentPageChange,
   handlePageSizeChange,
   handleSortingChange,
+  updateSearchParams,
 } from "@/lib";
 import { getProductsData } from "@/lib/table";
 import { ProductType } from "@/types";
@@ -85,7 +86,8 @@ export default function ProductsTable() {
       setIsLoading(true);
 
       const sortBy = sorting[0]?.id ?? "";
-      const sortOrder = sorting[0]?.desc ? "desc" : "asc";
+      const sortOrder =
+        sorting.length === 0 ? "" : sorting[0]?.desc ? "desc" : "asc";
       const categories = Array.from(selectedCategories);
 
       const {
@@ -94,30 +96,32 @@ export default function ProductsTable() {
         currentPage: newCurrentPage,
         pageSize: newPageSize,
         isValidSorting,
-      } = await getProductsData(
+        safeCategories,
+      } = await getProductsData({
         sortBy,
         sortOrder,
         categories,
         currentPage,
-        pageSize
-      );
+        pageSize,
+      });
 
-      if (!isValidSorting) {
-        const params = new URLSearchParams(searchParams);
-        params.delete("sortBy");
-        params.delete("sortOrder");
-        router.replace(`?${params.toString()}`, { scroll: false });
-      }
+      const updateUrl = updateSearchParams({
+        isValidSorting,
+        safeCategories,
+        selectedCategories,
+        newCurrentPage,
+        currentPage,
+        newPageSize,
+        pageSize,
+        searchParams,
+      });
 
-      if (newCurrentPage !== currentPage || newPageSize !== pageSize) {
-        const params = new URLSearchParams(searchParams);
-        params.set("currentPage", newCurrentPage.toString());
-        params.set("pageSize", newPageSize.toString());
-        router.replace(`?${params.toString()}`, { scroll: false });
-      } else {
+      if (!updateUrl) {
         setData(products);
         setTotalPages(totalPages);
         setIsLoading(false);
+      } else {
+        router.replace(`?${updateUrl.toString()}`, { scroll: false });
       }
     };
 

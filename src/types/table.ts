@@ -11,3 +11,11 @@ export type TablePaginationProps = {
   onCurrentPageChange: (page: number) => void;
   onPageSizeChange: (pageSize: number) => void;
 };
+
+export type getProductsTableProps = {
+  sortBy: string;
+  sortOrder: string;
+  categories: string[];
+  currentPage: number;
+  pageSize: number;
+};
