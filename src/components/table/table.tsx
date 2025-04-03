@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "../ui";
 
+import { SearchComponent } from "./search-component";
 import { TablePagination } from "./table-pagination";
 
 export const TableComponent = <TData,>({
@@ -20,9 +21,12 @@ export const TableComponent = <TData,>({
   totalPages,
   onCurrentPageChange,
   onPageSizeChange,
+  onSearchChange,
 }: TableProps<TData>) => {
   return (
-    <div>
+    <div className="flex flex-col gap-5">
+      <SearchComponent onSearchChange={onSearchChange} />
+
       <div className="rounded-md border">
         <Table>
           <TableHeader>

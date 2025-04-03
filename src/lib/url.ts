@@ -46,6 +46,11 @@ export const getPageSize = (searchParams: ReadonlyURLSearchParams) => {
   return pageSize ? Number(pageSize) : 10;
 };
 
+export const getSearch = (searchParams: ReadonlyURLSearchParams) => {
+  const search = searchParams.get(TableParam.Search);
+  return search;
+};
+
 export const handleSortingChange = (
   searchParams: ReadonlyURLSearchParams,
   sorting: {
@@ -112,6 +117,17 @@ export const handlePageSizeChange = (
   const params = new URLSearchParams(searchParams.toString());
 
   params.set(TableParam.PageSize, String(pageSize));
+
+  return params;
+};
+
+export const handleSearchChange = (
+  search: string,
+  searchParams: ReadonlyURLSearchParams
+) => {
+  const params = new URLSearchParams(searchParams.toString());
+
+  params.set(TableParam.Search, search);
 
   return params;
 };

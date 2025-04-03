@@ -17,11 +17,13 @@ import { TableComponent } from "@/components/table";
 import {
   getCurrentPage,
   getPageSize,
+  getSearch,
   getSelectedCategories,
   getSorting,
   handleCategoryChange,
   handleCurrentPageChange,
   handlePageSizeChange,
+  handleSearchChange,
   handleSortingChange,
   updateSearchParams,
 } from "@/lib";
@@ -56,6 +58,7 @@ export default function ProductsTable() {
     [searchParams]
   );
   const pageSize = useMemo(() => getPageSize(searchParams), [searchParams]);
+  const search = useMemo(() => getSearch(searchParams), [searchParams]);
 
   const onSortingChange: OnChangeFn<SortingState> = (updater) => {
     const updatedParams = handleSortingChange(searchParams, sorting, updater);
@@ -81,6 +84,11 @@ export default function ProductsTable() {
     router.replace(`?${updatedParams.toString()}`, { scroll: false });
   };
 
+  const onSearchChange = (search: string) => {
+    const updatedParams = handleSearchChange(search, searchParams);
+    router.replace(`?${updatedParams.toString()}`, { scroll: false });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -89,6 +97,8 @@ export default function ProductsTable() {
       const sortOrder =
         sorting.length === 0 ? "" : sorting[0]?.desc ? "desc" : "asc";
       const categories = Array.from(selectedCategories);
+
+      console.log(search);
 
       const {
         products,
@@ -103,6 +113,7 @@ export default function ProductsTable() {
         categories,
         currentPage,
         pageSize,
+        search,
       });
 
       const { shouldUpdate, params } = updateSearchParams({
@@ -160,6 +171,7 @@ export default function ProductsTable() {
       totalPages={totalPages}
       onCurrentPageChange={onCurrentPageChange}
       onPageSizeChange={onPageSizeChange}
+      onSearchChange={onSearchChange}
     />
   );
 }

@@ -22,4 +22,5 @@ export enum TableParam {
   CurrentPage = "currentPage",
   PageSize = "pageSize",
   Categories = "categories",
+  Search = "search",
 }

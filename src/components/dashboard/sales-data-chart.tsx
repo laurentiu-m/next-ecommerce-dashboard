@@ -2,13 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@radix-ui/react-select";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
 import { salesDataChartConfig, years, yearsArr } from "@/constants";
@@ -16,7 +9,16 @@ import { format } from "@/lib";
 import { getSalesData } from "@/lib/charts";
 import { SalesDataType } from "@/types";
 
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui";
 
 import { DashboardCard } from "./dashboard-card";
 import { SkeletonSalesDataChart } from "./skeletons";

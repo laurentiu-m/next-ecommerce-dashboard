@@ -58,6 +58,7 @@ export const getProductsData = async ({
   categories,
   currentPage,
   pageSize,
+  search,
 }: getProductsTableProps) => {
   const safeCategories = await handleSafeCategories(categories);
 
@@ -72,6 +73,8 @@ export const getProductsData = async ({
 
   const skip = (safeCurrentPage - 1) * safePageSize;
 
+  console.log(search);
+
   const {
     isValid,
     sortBy: safeSortBy,
@@ -85,10 +88,18 @@ export const getProductsData = async ({
 
   const products = await prisma.product.findMany({
     orderBy,
-    where:
-      safeCategories.length > 0
-        ? { category: { slug: { in: safeCategories } } }
-        : {},
+    where: {
+      AND: [
+        safeCategories.length > 0
+          ? { category: { slug: { in: safeCategories } } }
+          : {},
+        search
+          ? {
+              title: { contains: search },
+            }
+          : {},
+      ],
+    },
     include: {
       category: true,
     },
