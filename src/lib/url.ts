@@ -90,7 +90,7 @@ export const handleCategoryChange = (
 
   const params = new URLSearchParams(searchParams.toString());
 
-  if (updatedCategories.size) {
+  if (updatedCategories.size && !updatedCategories.has("")) {
     params.set(TableParam.Categories, Array.from(updatedCategories).join(","));
   } else {
     params.delete(TableParam.Categories);
