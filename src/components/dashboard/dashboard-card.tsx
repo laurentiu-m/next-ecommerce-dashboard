@@ -1,11 +1,12 @@
 import { ReactNode } from "react";
+
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../ui/card";
+} from "../ui";
 
 type Props = {
   title: string;

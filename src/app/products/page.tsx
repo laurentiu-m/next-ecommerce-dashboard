@@ -1,7 +1,11 @@
-export default function ProductsPage() {
+"use server";
+
+import ProductsTable from "./table";
+
+export default async function ProductsPage() {
   return (
-    <div>
-      <h1>Products Page</h1>
+    <div className="p-8">
+      <ProductsTable />
     </div>
   );
 }

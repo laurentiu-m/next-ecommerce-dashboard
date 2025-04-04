@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
 import {
   Collapsible,
   CollapsibleContent,
@@ -16,31 +18,34 @@ import {
   PackageIcon,
   UsersIcon,
 } from "lucide-react";
-import { SidebarMenuItem, SidebarMenuSub } from "./ui/sidebar";
+
+import { ROUTES } from "@/constants";
+
+import { SidebarMenuItem, SidebarMenuSub } from "../ui";
 
 const items = [
   {
     icon: <HomeIcon className="size-5" />,
     title: "Dashboard",
-    url: "/dashboard",
+    url: ROUTES.Dashboard,
   },
   {
     icon: <ArchiveIcon className="size-5" />,
     title: "Products",
     children: [
-      { title: "All Products", url: "/products" },
-      { title: "Categories", url: "/products/categories" },
+      { title: "All Products", url: ROUTES.Products },
+      { title: "Categories", url: ROUTES.Categories },
     ],
   },
   {
     icon: <PackageIcon className="size-5" />,
     title: "Orders",
-    url: "/orders",
+    url: ROUTES.Orders,
   },
   {
     icon: <UsersIcon className="size-5" />,
     title: "Customers",
-    url: "/customers",
+    url: ROUTES.Customers,
   },
 ];
 
@@ -63,27 +68,6 @@ export const AppSidebarMenu = () => {
   };
 
   const [openStates, setOpenStates] = useState(initOpenState);
-
-  useEffect(() => {
-    const newOpenStates = { ...openStates };
-    let hasChanges = false;
-
-    items.forEach((item) => {
-      if (item.children) {
-        const isChildActive = item.children.some((subItem) =>
-          pathname.startsWith(subItem.url)
-        );
-        if (isChildActive && !newOpenStates[item.title]) {
-          newOpenStates[item.title] = true;
-          hasChanges = true;
-        }
-      }
-    });
-
-    if (hasChanges) {
-      setOpenStates(newOpenStates);
-    }
-  }, [pathname, openStates]);
 
   return items.map((item) => {
     const isChildActive = item.children?.some((subItem) =>

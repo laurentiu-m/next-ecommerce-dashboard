@@ -1,4 +1,4 @@
-export type Customer = {
+export type CustomerApi = {
   firstName: string;
   lastName: string;
   age: number;
@@ -9,7 +9,7 @@ export type Customer = {
   role: string;
 };
 
-export type Product = {
+export type ProductApi = {
   title: string;
   description: string;
   price: number;
@@ -20,7 +20,7 @@ export type Product = {
   category: string;
 };
 
-export type Category = {
+export type CategoryApi = {
   name: string;
   slug: string;
 };

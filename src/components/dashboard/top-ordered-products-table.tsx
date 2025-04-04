@@ -1,5 +1,8 @@
 "use server";
 
+import { prisma } from "@/lib/prisma";
+
+import { ImageComponent } from "../image-component";
 import {
   Table,
   TableBody,
@@ -7,10 +10,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "../ui";
 
-import { prisma } from "@/lib/prisma";
-import { ImageComponent } from "../image-component";
 import { DashboardCard } from "./dashboard-card";
 
 export const TopOrderedProductsTable = async () => {

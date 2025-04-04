@@ -1,6 +1,7 @@
 "use server";
 
-import { years, yearsArr } from "@/constants/chart";
+import { years, yearsArr } from "@/constants";
+
 import { format } from "./format";
 import { prisma } from "./prisma";
 

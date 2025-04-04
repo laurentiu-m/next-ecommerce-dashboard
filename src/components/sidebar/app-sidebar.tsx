@@ -1,5 +1,7 @@
 import { LogOutIcon } from "lucide-react";
+
 import {
+  montserrat,
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -8,9 +10,9 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-} from "@/components/ui/sidebar";
+} from "../ui";
+
 import { AppSidebarMenu } from "./app-sidebar-menu";
-import { montserrat } from "./ui/fonts";
 
 export const AppSidebar = () => {
   return (

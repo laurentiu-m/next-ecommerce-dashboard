@@ -4,8 +4,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../ui/card";
-import { Skeleton } from "../ui/skeleton";
+  Skeleton,
+} from "../ui";
 
 export const SkeletonSalesDataChart = () => {
   return (

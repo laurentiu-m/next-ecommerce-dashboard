@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+
 import Image from "next/image";
+
 import { SkeletonImage } from "./skeletons";
 
 type Props = {
@@ -27,7 +29,7 @@ export const ImageComponent = ({ src, title, width, height }: Props) => {
           isLoaded ? "opacity-100" : "opacity-0"
         }`}
         onLoad={() => setIsLoaded(true)}
-        loading="eager"
+        priority={true}
       />
     </div>
   );

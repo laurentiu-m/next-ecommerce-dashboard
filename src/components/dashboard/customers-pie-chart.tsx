@@ -1,31 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { Label, Pie, PieChart } from "recharts";
 
+import { customersPieChartConfig } from "@/constants";
+import { getCustomersCount } from "@/lib/charts";
+import { CustomerCountType } from "@/types";
+
 import {
-  ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import { getCustomersCount } from "@/lib/chart";
-import { CustomerCountType } from "@/types/chart";
+} from "../ui";
+
 import { DashboardCard } from "./dashboard-card";
 import { SkeletonCustomerPieChart } from "./skeletons";
-
-const chartConfig = {
-  2024: {
-    label: "2024",
-    color: "var(--chart-1)",
-  },
-  2025: {
-    label: "2025",
-    color: "var(--chart-2)",
-  },
-} satisfies ChartConfig;
 
 export const CustomersPieChart = () => {
   const [chartData, setChartData] = useState<CustomerCountType>();
@@ -52,7 +44,7 @@ export const CustomersPieChart = () => {
       className="w-[400px] h-[500px]"
     >
       <ChartContainer
-        config={chartConfig}
+        config={customersPieChartConfig}
         className="mx-auto aspect-square h-full w-full"
       >
         <PieChart>
