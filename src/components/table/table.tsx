@@ -25,7 +25,7 @@ export const TableComponent = <TData,>({
   onSearchChange,
 }: TableProps<TData>) => {
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-4">
       <SearchComponent search={search} onSearchChange={onSearchChange} />
 
       <div className="rounded-md border">
