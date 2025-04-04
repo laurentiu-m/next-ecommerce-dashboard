@@ -43,10 +43,21 @@ export const handleSafeCategories = async (categories: string[]) => {
     : [];
 };
 
-export const getTotalProductsCount = async (categories: string[]) => {
+export const getTotalProductsCount = async (
+  categories: string[],
+  search: string | null
+) => {
   const total = await prisma.product.count({
-    where:
-      categories.length > 0 ? { category: { slug: { in: categories } } } : {},
+    where: {
+      AND: [
+        categories.length > 0 ? { category: { slug: { in: categories } } } : {},
+        search
+          ? {
+              title: { contains: search },
+            }
+          : {},
+      ],
+    },
   });
 
   return total;
@@ -62,7 +73,7 @@ export const getProductsData = async ({
 }: getProductsTableProps) => {
   const safeCategories = await handleSafeCategories(categories);
 
-  const totalCount = await getTotalProductsCount(safeCategories);
+  const totalCount = await getTotalProductsCount(safeCategories, search);
   const totalPages = Math.ceil(totalCount / pageSize);
 
   const { safeCurrentPage, safePageSize } = await handleSafePage(
