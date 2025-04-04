@@ -98,8 +98,6 @@ export default function ProductsTable() {
         sorting.length === 0 ? "" : sorting[0]?.desc ? "desc" : "asc";
       const categories = Array.from(selectedCategories);
 
-      console.log(search);
-
       const {
         products,
         totalPages,
@@ -124,6 +122,7 @@ export default function ProductsTable() {
         currentPage,
         newPageSize,
         pageSize,
+        search,
         searchParams,
       });
 
@@ -144,6 +143,7 @@ export default function ProductsTable() {
     pageSize,
     router,
     searchParams,
+    search,
   ]);
 
   const table = useReactTable({
@@ -171,6 +171,7 @@ export default function ProductsTable() {
       totalPages={totalPages}
       onCurrentPageChange={onCurrentPageChange}
       onPageSizeChange={onPageSizeChange}
+      search={search}
       onSearchChange={onSearchChange}
     />
   );

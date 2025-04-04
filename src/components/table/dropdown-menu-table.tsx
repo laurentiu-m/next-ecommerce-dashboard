@@ -31,6 +31,15 @@ export const DropdownMenuTable = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="max-w-60">
+          <DropdownMenuCheckboxItem
+            className="cursor-pointer"
+            checked={selectedCategories?.size === 0}
+            onCheckedChange={() =>
+              onCategoryChange ? onCategoryChange("") : null
+            }
+          >
+            All
+          </DropdownMenuCheckboxItem>
           {categoriesPrisma.map((category) => (
             <DropdownMenuCheckboxItem
               key={category.slug}

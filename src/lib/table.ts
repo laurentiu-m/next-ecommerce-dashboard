@@ -73,8 +73,6 @@ export const getProductsData = async ({
 
   const skip = (safeCurrentPage - 1) * safePageSize;
 
-  console.log(search);
-
   const {
     isValid,
     sortBy: safeSortBy,

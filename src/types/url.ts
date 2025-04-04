@@ -8,5 +8,6 @@ export type UpdateSearchParamsProps = {
   currentPage: number;
   newPageSize: number;
   pageSize: number;
+  search: string | null;
   searchParams: ReadonlyURLSearchParams;
 };

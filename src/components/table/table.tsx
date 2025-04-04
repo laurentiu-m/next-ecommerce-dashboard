@@ -21,11 +21,12 @@ export const TableComponent = <TData,>({
   totalPages,
   onCurrentPageChange,
   onPageSizeChange,
+  search,
   onSearchChange,
 }: TableProps<TData>) => {
   return (
     <div className="flex flex-col gap-5">
-      <SearchComponent onSearchChange={onSearchChange} />
+      <SearchComponent search={search} onSearchChange={onSearchChange} />
 
       <div className="rounded-md border">
         <Table>

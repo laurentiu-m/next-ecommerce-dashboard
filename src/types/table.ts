@@ -2,6 +2,7 @@ import { Table as TableTanStack } from "@tanstack/react-table";
 
 export type TableProps<TData> = {
   table: TableTanStack<TData>;
+  search: string | null;
   onSearchChange: (search: string) => void;
 } & TablePaginationProps;
 

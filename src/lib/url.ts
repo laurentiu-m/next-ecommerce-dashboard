@@ -153,10 +153,16 @@ export const updateSearchParams = ({
   currentPage,
   newPageSize,
   pageSize,
+  search,
   searchParams,
 }: UpdateSearchParamsProps) => {
   const params = new URLSearchParams(searchParams);
   let shouldUpdate = false;
+
+  if (search === "") {
+    params.delete(TableParam.Search);
+    shouldUpdate = true;
+  }
 
   const isValidSortingParams = handleSafeSortingParams(
     params.get(TableParam.SortBy),
