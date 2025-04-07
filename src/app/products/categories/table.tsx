@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 
 import {
   getCoreRowModel,
@@ -13,7 +14,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { TableComponent, SkeletonTable } from "@/components/table";
+import { SkeletonTable, TableComponent } from "@/components/table";
 import {
   getCurrentPage,
   getPageSize,
@@ -25,12 +26,8 @@ import {
   handlePageSizeChange,
   handleSearchChange,
   handleSortingChange,
-  updateSearchParams,
 } from "@/lib";
-import { getProductsData } from "@/lib/table";
 import { ProductType } from "@/types";
-
-import { columns } from "./columns";
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 declare module "@tanstack/react-table" {
@@ -40,7 +37,7 @@ declare module "@tanstack/react-table" {
   }
 }
 
-export default function ProductsTable() {
+export default function CategoriesTable() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -88,63 +85,6 @@ export default function ProductsTable() {
     const updatedParams = handleSearchChange(search, searchParams);
     router.replace(`?${updatedParams.toString()}`, { scroll: false });
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-
-      const sortBy = sorting[0]?.id ?? "";
-      const sortOrder =
-        sorting.length === 0 ? "" : sorting[0]?.desc ? "desc" : "asc";
-      const categories = Array.from(selectedCategories);
-
-      const {
-        products,
-        totalPages,
-        currentPage: newCurrentPage,
-        pageSize: newPageSize,
-        isValidSorting,
-        safeCategories,
-      } = await getProductsData({
-        sortBy,
-        sortOrder,
-        categories,
-        currentPage,
-        pageSize,
-        search,
-      });
-
-      const { shouldUpdate, params } = updateSearchParams({
-        isValidSorting,
-        safeCategories,
-        selectedCategories,
-        newCurrentPage,
-        currentPage,
-        newPageSize,
-        pageSize,
-        search,
-        searchParams,
-      });
-
-      if (!shouldUpdate) {
-        setData(products);
-        setTotalPages(totalPages);
-        setIsLoading(false);
-      } else {
-        router.replace(`?${params.toString()}`, { scroll: false });
-      }
-    };
-
-    fetchData();
-  }, [
-    sorting,
-    selectedCategories,
-    currentPage,
-    pageSize,
-    router,
-    searchParams,
-    search,
-  ]);
 
   const table = useReactTable({
     data,

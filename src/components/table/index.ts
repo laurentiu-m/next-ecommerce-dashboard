@@ -4,3 +4,4 @@ export * from "./dropdown-menu-action";
 export * from "./search-component";
 export * from "./sort-button";
 export * from "./table-pagination";
+export * from "./skeleton";
