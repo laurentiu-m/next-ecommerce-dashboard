@@ -175,7 +175,11 @@ export const updateSearchParams = ({
     shouldUpdate = true;
   }
 
-  if (safeCategories.length !== selectedCategories.size) {
+  if (
+    safeCategories &&
+    selectedCategories &&
+    safeCategories.length !== selectedCategories.size
+  ) {
     params.delete(TableParam.Categories);
     shouldUpdate = true;
   }

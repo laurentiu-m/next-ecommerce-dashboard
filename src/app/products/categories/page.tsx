@@ -1,11 +1,11 @@
 "use server";
 
-import { SkeletonTable } from "@/components/table/skeleton";
+import CategoriesTable from "./table";
 
 export default async function CategoriesPage() {
   return (
     <div className="p-8">
-      <SkeletonTable />
+      <CategoriesTable />
     </div>
   );
 }

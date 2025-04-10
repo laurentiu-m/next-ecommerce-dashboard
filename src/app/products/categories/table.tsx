@@ -1,55 +1,44 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/router";
+import { useSearchParams, useRouter } from "next/navigation";
 
 import {
   getCoreRowModel,
   getSortedRowModel,
   OnChangeFn,
-  RowData,
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 
 import { SkeletonTable, TableComponent } from "@/components/table";
 import {
+  getCategoriesData,
   getCurrentPage,
   getPageSize,
   getSearch,
-  getSelectedCategories,
   getSorting,
-  handleCategoryChange,
   handleCurrentPageChange,
   handlePageSizeChange,
   handleSearchChange,
   handleSortingChange,
+  updateSearchParams,
 } from "@/lib";
-import { ProductType } from "@/types";
+import { CategoryType } from "@/types";
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-declare module "@tanstack/react-table" {
-  interface TableMeta<TData extends RowData> {
-    selectedCategories: Set<string>;
-    onCategoryChange: (category: string) => void;
-  }
-}
+import { columns } from "./columns";
 
 export default function CategoriesTable() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [data, setData] = useState<ProductType[]>([]);
+  const [data, setData] = useState<CategoryType[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
   const sorting = useMemo(() => getSorting(searchParams), [searchParams]);
-  const selectedCategories = useMemo(
-    () => getSelectedCategories(searchParams),
-    [searchParams]
-  );
+
   const currentPage = useMemo(
     () => getCurrentPage(searchParams),
     [searchParams]
@@ -59,15 +48,6 @@ export default function CategoriesTable() {
 
   const onSortingChange: OnChangeFn<SortingState> = (updater) => {
     const updatedParams = handleSortingChange(searchParams, sorting, updater);
-    router.replace(`?${updatedParams.toString()}`, { scroll: false });
-  };
-
-  const onCategoryChange = (category: string) => {
-    const updatedParams = handleCategoryChange(
-      searchParams,
-      selectedCategories,
-      category
-    );
     router.replace(`?${updatedParams.toString()}`, { scroll: false });
   };
 
@@ -86,6 +66,50 @@ export default function CategoriesTable() {
     router.replace(`?${updatedParams.toString()}`, { scroll: false });
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+
+      const sortBy = sorting[0]?.id ?? "";
+      const sortOrder =
+        sorting.length === 0 ? "" : sorting[0]?.desc ? "desc" : "asc";
+
+      const {
+        categories,
+        isValidSorting,
+        currentPage: newCurrentPage,
+        pageSize: newPageSize,
+        totalPages,
+      } = await getCategoriesData({
+        sortBy,
+        sortOrder,
+        currentPage,
+        pageSize,
+        search,
+      });
+
+      const { shouldUpdate, params } = updateSearchParams({
+        isValidSorting,
+        newCurrentPage,
+        currentPage,
+        newPageSize,
+        pageSize,
+        search,
+        searchParams,
+      });
+
+      if (!shouldUpdate) {
+        setData(categories);
+        setTotalPages(totalPages);
+        setIsLoading(false);
+      } else {
+        router.replace(`?${params.toString()}`, { scroll: false });
+      }
+    };
+
+    fetchData();
+  }, [sorting, currentPage, pageSize, router, searchParams, search]);
+
   const table = useReactTable({
     data,
     columns,
@@ -95,10 +119,6 @@ export default function CategoriesTable() {
     getSortedRowModel: getSortedRowModel(),
     manualSorting: true,
     enableMultiSort: false,
-    meta: {
-      selectedCategories,
-      onCategoryChange,
-    },
   });
 
   if (isLoading) return <SkeletonTable />;

@@ -14,10 +14,18 @@ export type TablePaginationProps = {
   onPageSizeChange: (pageSize: number) => void;
 };
 
-export type getProductsTableProps = {
+export type ProductsTableProps = {
   sortBy: string;
   sortOrder: string;
   categories: string[];
+  currentPage: number;
+  pageSize: number;
+  search: string | null;
+};
+
+export type CategoriesTableProps = {
+  sortBy: string;
+  sortOrder: string;
   currentPage: number;
   pageSize: number;
   search: string | null;

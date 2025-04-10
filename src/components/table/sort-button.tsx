@@ -2,7 +2,6 @@ import { Column } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 
 import { Order, sortOrders } from "@/constants/table";
-import { ProductType } from "@/types";
 
 import {
   DropdownMenu,
@@ -13,13 +12,17 @@ import {
 } from "../ui";
 import { Button } from "../ui/button";
 
-type Props = {
-  column: Column<ProductType, unknown>;
+type Props<TData = unknown> = {
+  column: Column<TData, unknown>;
   title: string;
   className?: string;
 };
 
-export const SortButton = ({ column, title, className }: Props) => {
+export const SortButton = <TData,>({
+  column,
+  title,
+  className,
+}: Props<TData>) => {
   const isSorted = column.getIsSorted();
 
   const handleSortIcon = () => {
