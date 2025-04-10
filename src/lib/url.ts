@@ -2,12 +2,7 @@ import { ReadonlyURLSearchParams } from "next/navigation";
 
 import { SortingState, Updater } from "@tanstack/react-table";
 
-import {
-  Order,
-  TableParam,
-  validSortFieldsProducts,
-  validSortOrders,
-} from "@/constants";
+import { Order, TableParam, validSortOrders } from "@/constants";
 import { UpdateSearchParamsProps } from "@/types/url";
 
 export const getSorting = (searchParams: ReadonlyURLSearchParams) => {
@@ -134,11 +129,12 @@ export const handleSearchChange = (
 
 export const handleSafeSortingParams = (
   sortBy: string | null,
-  sortOrder: string | null
+  sortOrder: string | null,
+  validSortFields: string[]
 ) => {
   if (!sortBy || !sortOrder) return true;
 
-  const isValidSortBy = validSortFieldsProducts.includes(sortBy);
+  const isValidSortBy = validSortFields.includes(sortBy);
   const isValidSortOrder = validSortOrders.includes(sortOrder);
 
   if (!isValidSortBy || !isValidSortOrder) return false;
@@ -147,6 +143,7 @@ export const handleSafeSortingParams = (
 
 export const updateSearchParams = ({
   isValidSorting,
+  validSortFields,
   safeCategories,
   selectedCategories,
   newCurrentPage,
@@ -166,7 +163,8 @@ export const updateSearchParams = ({
 
   const isValidSortingParams = handleSafeSortingParams(
     params.get(TableParam.SortBy),
-    params.get(TableParam.SortOrder)
+    params.get(TableParam.SortOrder),
+    validSortFields
   );
 
   if (!isValidSorting || !isValidSortingParams) {

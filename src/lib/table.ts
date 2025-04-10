@@ -1,5 +1,9 @@
 "use server";
 
+import {
+  validSortFieldsCategories,
+  validSortFieldsProducts,
+} from "@/constants";
 import { CategoriesTableProps, ProductsTableProps } from "@/types/table";
 
 import { prisma } from "./prisma/prisma";
@@ -36,7 +40,7 @@ export const getProductsData = async ({
     isValid,
     sortBy: safeSortBy,
     sortOrder: safeSortOrder,
-  } = await handleSafeSorting(sortBy, sortOrder);
+  } = await handleSafeSorting(sortBy, sortOrder, validSortFieldsProducts);
 
   const orderBy =
     isValid && safeSortBy && safeSortOrder
@@ -90,15 +94,13 @@ export const getCategoriesData = async ({
     totalPages
   );
 
-  console.log(safeCurrentPage, safePageSize);
-
   const skip = (safeCurrentPage - 1) * safePageSize;
 
   const {
     isValid,
     sortBy: safeSortBy,
     sortOrder: safeSortOrder,
-  } = await handleSafeSorting(sortBy, sortOrder);
+  } = await handleSafeSorting(sortBy, sortOrder, validSortFieldsCategories);
 
   const orderBy =
     isValid && safeSortBy && safeSortOrder

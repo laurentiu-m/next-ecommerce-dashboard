@@ -14,6 +14,7 @@ import {
 } from "@tanstack/react-table";
 
 import { TableComponent, SkeletonTable } from "@/components/table";
+import { validSortFieldsProducts } from "@/constants";
 import {
   getCurrentPage,
   getPageSize,
@@ -124,6 +125,7 @@ export default function ProductsTable() {
         pageSize,
         search,
         searchParams,
+        validSortFields: validSortFieldsProducts,
       });
 
       if (!shouldUpdate) {

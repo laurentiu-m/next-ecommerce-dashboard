@@ -2,6 +2,7 @@ import { ReadonlyURLSearchParams } from "next/navigation";
 
 export type UpdateSearchParamsProps = {
   isValidSorting: boolean;
+  validSortFields: string[];
   safeCategories?: string[];
   selectedCategories?: Set<string>;
   newCurrentPage: number;

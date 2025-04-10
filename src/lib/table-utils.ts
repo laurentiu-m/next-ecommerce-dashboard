@@ -1,11 +1,6 @@
 "use server";
 
-import {
-  categoriesArr,
-  rows,
-  validSortFieldsProducts,
-  validSortOrders,
-} from "@/constants";
+import { categoriesArr, rows, validSortOrders } from "@/constants";
 
 import { prisma } from "./prisma";
 
@@ -21,11 +16,15 @@ export const handleSafePage = async (
   return { safePageSize, safeCurrentPage };
 };
 
-export const handleSafeSorting = async (sortBy: string, sortOrder: string) => {
+export const handleSafeSorting = async (
+  sortBy: string,
+  sortOrder: string,
+  validSortFields: string[]
+) => {
   if (!sortBy || !sortOrder)
     return { isValid: true, sortBy: null, sortOrder: null };
 
-  const isValidSort = validSortFieldsProducts.includes(sortBy);
+  const isValidSort = validSortFields.includes(sortBy);
   const isValidSortOrder = validSortOrders.includes(sortOrder);
 
   if (isValidSort && isValidSortOrder) {

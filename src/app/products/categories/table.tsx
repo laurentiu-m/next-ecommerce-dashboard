@@ -13,6 +13,7 @@ import {
 } from "@tanstack/react-table";
 
 import { SkeletonTable, TableComponent } from "@/components/table";
+import { validSortFieldsCategories } from "@/constants";
 import {
   getCategoriesData,
   getCurrentPage,
@@ -38,7 +39,6 @@ export default function CategoriesTable() {
   const [isLoading, setIsLoading] = useState(true);
 
   const sorting = useMemo(() => getSorting(searchParams), [searchParams]);
-
   const currentPage = useMemo(
     () => getCurrentPage(searchParams),
     [searchParams]
@@ -96,6 +96,7 @@ export default function CategoriesTable() {
         pageSize,
         search,
         searchParams,
+        validSortFields: validSortFieldsCategories,
       });
 
       if (!shouldUpdate) {
