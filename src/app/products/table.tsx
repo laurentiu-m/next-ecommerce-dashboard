@@ -1,33 +1,20 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useRouter, useSearchParams } from "next/navigation";
 
 import {
   getCoreRowModel,
   getSortedRowModel,
-  OnChangeFn,
   RowData,
-  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 
 import { TableComponent, SkeletonTable } from "@/components/table";
 import { validSortFieldsProducts } from "@/constants";
-import {
-  getCurrentPage,
-  getPageSize,
-  getSearch,
-  getSelectedCategories,
-  getSorting,
-  handleCategoryChange,
-  handleCurrentPageChange,
-  handlePageSizeChange,
-  handleSearchChange,
-  handleSortingChange,
-  updateSearchParams,
-} from "@/lib";
+import { useSearchParamsValues, useSearchParamsHandlers } from "@/hooks";
+import { format, updateSearchParams } from "@/lib";
 import { getProductsData } from "@/lib/table";
 import { ProductType } from "@/types";
 
@@ -49,64 +36,25 @@ export default function ProductsTable() {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
-  const sorting = useMemo(() => getSorting(searchParams), [searchParams]);
-  const selectedCategories = useMemo(
-    () => getSelectedCategories(searchParams),
-    [searchParams]
-  );
-  const currentPage = useMemo(
-    () => getCurrentPage(searchParams),
-    [searchParams]
-  );
-  const pageSize = useMemo(() => getPageSize(searchParams), [searchParams]);
-  const search = useMemo(() => getSearch(searchParams), [searchParams]);
+  const { currentPage, pageSize, search, selectedCategories, sorting } =
+    useSearchParamsValues(searchParams);
 
-  const onSortingChange: OnChangeFn<SortingState> = (updater) => {
-    const updatedParams = handleSortingChange(searchParams, sorting, updater);
-    router.replace(`?${updatedParams.toString()}`, { scroll: false });
-  };
-
-  const onCategoryChange = (category: string) => {
-    const updatedParams = handleCategoryChange(
-      searchParams,
-      selectedCategories,
-      category
-    );
-    router.replace(`?${updatedParams.toString()}`, { scroll: false });
-  };
-
-  const onCurrentPageChange = (page: number) => {
-    const updatedParams = handleCurrentPageChange(page, searchParams);
-    router.replace(`?${updatedParams.toString()}`, { scroll: false });
-  };
-
-  const onPageSizeChange = (pageSize: number) => {
-    const updatedParams = handlePageSizeChange(pageSize, searchParams);
-    router.replace(`?${updatedParams.toString()}`, { scroll: false });
-  };
-
-  const onSearchChange = (search: string) => {
-    const updatedParams = handleSearchChange(search, searchParams);
-    router.replace(`?${updatedParams.toString()}`, { scroll: false });
-  };
+  const {
+    onSortingChange,
+    onCategoryChange,
+    onCurrentPageChange,
+    onPageSizeChange,
+    onSearchChange,
+  } = useSearchParamsHandlers({ searchParams, selectedCategories, sorting });
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
 
-      const sortBy = sorting[0]?.id ?? "";
-      const sortOrder =
-        sorting.length === 0 ? "" : sorting[0]?.desc ? "desc" : "asc";
+      const { sortBy, sortOrder } = format.sorting(sorting);
       const categories = Array.from(selectedCategories);
 
-      const {
-        products,
-        totalPages,
-        currentPage: newCurrentPage,
-        pageSize: newPageSize,
-        isValidSorting,
-        safeCategories,
-      } = await getProductsData({
+      const result = await getProductsData({
         sortBy,
         sortOrder,
         categories,
@@ -116,24 +64,24 @@ export default function ProductsTable() {
       });
 
       const { shouldUpdate, params } = updateSearchParams({
-        isValidSorting,
-        safeCategories,
+        isValidSorting: result.isValidSorting,
+        safeCategories: result.safeCategories,
         selectedCategories,
-        newCurrentPage,
+        newCurrentPage: result.currentPage,
         currentPage,
-        newPageSize,
+        newPageSize: result.pageSize,
         pageSize,
         search,
         searchParams,
         validSortFields: validSortFieldsProducts,
       });
 
-      if (!shouldUpdate) {
-        setData(products);
-        setTotalPages(totalPages);
-        setIsLoading(false);
-      } else {
+      if (shouldUpdate) {
         router.replace(`?${params.toString()}`, { scroll: false });
+      } else {
+        setData(result.products);
+        setTotalPages(result.totalPages);
+        setIsLoading(false);
       }
     };
 

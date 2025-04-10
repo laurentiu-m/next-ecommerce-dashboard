@@ -18,4 +18,16 @@ export const format = {
       year: "numeric",
     });
   },
+
+  sorting: (
+    sorting: {
+      id: string;
+      desc: boolean;
+    }[]
+  ) => {
+    return {
+      sortBy: sorting[0]?.id ?? "",
+      sortOrder: sorting.length === 0 ? "" : sorting[0]?.desc ? "desc" : "asc",
+    };
+  },
 };
