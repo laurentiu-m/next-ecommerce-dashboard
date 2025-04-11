@@ -2,62 +2,49 @@
 
 import { useEffect, useState } from "react";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 
 import {
   getCoreRowModel,
   getSortedRowModel,
-  RowData,
   useReactTable,
 } from "@tanstack/react-table";
 
-import { TableComponent, SkeletonTable } from "@/components/table";
-import { validSortFieldsProducts } from "@/constants";
-import { useSearchParamsValues, useSearchParamsHandlers } from "@/hooks";
-import { format, updateSearchParams } from "@/lib";
-import { getProductsData } from "@/lib/table";
-import { ProductType } from "@/types";
+import { SkeletonTable, TableComponent } from "@/components/table";
+import { validSortFieldsCategories } from "@/constants";
+import { useSearchParamsHandlers, useSearchParamsValues } from "@/hooks";
+import { format, getCategoriesData, updateSearchParams } from "@/lib";
+import { CategoryType } from "@/types";
 
 import { columns } from "./columns";
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-declare module "@tanstack/react-table" {
-  interface TableMeta<TData extends RowData> {
-    selectedCategories: Set<string>;
-    onCategoryChange: (category: string) => void;
-  }
-}
-
-export default function ProductsTable() {
+export default function CategoriesTable() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [data, setData] = useState<ProductType[]>([]);
+  const [data, setData] = useState<CategoryType[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { currentPage, pageSize, search, selectedCategories, sorting } =
+  const { currentPage, pageSize, search, sorting } =
     useSearchParamsValues(searchParams);
 
   const {
-    onSortingChange,
-    onCategoryChange,
     onCurrentPageChange,
     onPageSizeChange,
     onSearchChange,
-  } = useSearchParamsHandlers({ searchParams, selectedCategories, sorting });
+    onSortingChange,
+  } = useSearchParamsHandlers({ searchParams, sorting });
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
 
       const { sortBy, sortOrder } = format.sorting(sorting);
-      const categories = Array.from(selectedCategories);
 
-      const result = await getProductsData({
+      const result = await getCategoriesData({
         sortBy,
         sortOrder,
-        categories,
         currentPage,
         pageSize,
         search,
@@ -65,36 +52,26 @@ export default function ProductsTable() {
 
       const { shouldUpdate, params } = updateSearchParams({
         isValidSorting: result.isValidSorting,
-        safeCategories: result.safeCategories,
-        selectedCategories,
         newCurrentPage: result.currentPage,
         currentPage,
         newPageSize: result.pageSize,
         pageSize,
         search,
         searchParams,
-        validSortFields: validSortFieldsProducts,
+        validSortFields: validSortFieldsCategories,
       });
 
       if (shouldUpdate) {
         router.replace(`?${params.toString()}`, { scroll: false });
       } else {
-        setData(result.products);
+        setData(result.categories);
         setTotalPages(result.totalPages);
         setIsLoading(false);
       }
     };
 
     fetchData();
-  }, [
-    sorting,
-    selectedCategories,
-    currentPage,
-    pageSize,
-    router,
-    searchParams,
-    search,
-  ]);
+  }, [sorting, currentPage, pageSize, router, searchParams, search]);
 
   const table = useReactTable({
     data,
@@ -105,10 +82,6 @@ export default function ProductsTable() {
     getSortedRowModel: getSortedRowModel(),
     manualSorting: true,
     enableMultiSort: false,
-    meta: {
-      selectedCategories,
-      onCategoryChange,
-    },
   });
 
   if (isLoading) return <SkeletonTable />;

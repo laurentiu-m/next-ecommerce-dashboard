@@ -4,3 +4,4 @@ export * from "./slugify";
 export * from "./table";
 export * from "./url";
 export * from "./utils";
+export * from "./table-utils";
