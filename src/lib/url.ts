@@ -3,7 +3,7 @@ import { ReadonlyURLSearchParams } from "next/navigation";
 import { SortingState, Updater } from "@tanstack/react-table";
 
 import { Order, TableParam, validSortOrders } from "@/constants";
-import { UpdateSearchParamsProps } from "@/types/url";
+import { UpdateSearchParamsProps } from "@/types";
 
 export const getSorting = (searchParams: ReadonlyURLSearchParams) => {
   const sortBy = searchParams.get(TableParam.SortBy)?.trim();

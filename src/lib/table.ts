@@ -4,7 +4,7 @@ import {
   validSortFieldsCategories,
   validSortFieldsProducts,
 } from "@/constants";
-import { CategoriesTableProps, ProductsTableProps } from "@/types/table";
+import { CategoriesTableProps, ProductsTableProps } from "@/types";
 
 import { prisma } from "./prisma/prisma";
 import {

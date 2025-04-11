@@ -1,7 +1,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 import { rows } from "@/constants";
-import { TablePaginationProps } from "@/types/table";
+import { TablePaginationProps } from "@/types";
 
 import {
   Button,

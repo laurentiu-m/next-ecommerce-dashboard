@@ -18,7 +18,7 @@ type Props = {
     id: string;
     desc: boolean;
   }[];
-  selectedCategories: Set<string>;
+  selectedCategories?: Set<string>;
 };
 
 export const useSearchParamsHandlers = ({
@@ -41,12 +41,14 @@ export const useSearchParamsHandlers = ({
   };
 
   const onCategoryChange = (category: string) => {
-    const updatedParams = handleCategoryChange(
-      searchParams,
-      selectedCategories,
-      category
-    );
-    updateParams(updatedParams);
+    if (selectedCategories) {
+      const updatedParams = handleCategoryChange(
+        searchParams,
+        selectedCategories,
+        category
+      );
+      updateParams(updatedParams);
+    }
   };
 
   const onCurrentPageChange = (page: number) => {

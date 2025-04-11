@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 
-import { Role } from "@/constants/user";
+import { Role } from "@/constants/";
 
 export type CategoryType = {
   id: string;
