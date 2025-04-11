@@ -1,4 +1,4 @@
-import { categories } from "@/constants";
+import { categoriesPrisma } from "@/constants";
 import { CustomerApi, ProductApi } from "@/types";
 
 import apiClient from "./axios";
@@ -6,7 +6,7 @@ import apiClient from "./axios";
 export const api = {
   getProducts: async (): Promise<ProductApi[]> => {
     const res = await Promise.all(
-      categories.map(async (category) => {
+      categoriesPrisma.map(async (category) => {
         const { data } = await apiClient.get(
           `/products/category/${category.slug}`
         );
