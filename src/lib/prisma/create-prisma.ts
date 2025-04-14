@@ -2,6 +2,7 @@ import { faker } from "@faker-js/faker";
 
 import { CategoryApi, CustomerApi, ProductApi } from "@/types";
 
+import { format } from "../format";
 import { slugify } from "../slugify";
 
 import { prisma } from "./prisma";
@@ -18,8 +19,7 @@ export const createCustomers = async (customers: CustomerApi[]) => {
   for (const customer of customers) {
     await prisma.customer.create({
       data: {
-        firstName: customer.firstName,
-        lastName: customer.lastName,
+        name: format.fullName(customer.firstName, customer.lastName),
         age: customer.age,
         gender: customer.gender,
         email: customer.email,

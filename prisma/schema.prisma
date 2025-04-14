@@ -15,8 +15,7 @@ datasource db {
 
 model Customer {
   id        String   @id @default(uuid())
-  firstName String
-  lastName  String
+  name      String
   age       Int
   gender    String
   email     String   @unique
