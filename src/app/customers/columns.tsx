@@ -2,28 +2,18 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { DropdownMenuTable } from "@/components/table";
 import { DropdownMenuAction } from "@/components/table/dropdown-menu-action";
 import { SortButton } from "@/components/table/sort-button";
-import { CategoryType, CustomerType } from "@/types";
+import { CustomerType } from "@/types";
 
 export const columns: ColumnDef<CustomerType>[] = [
   {
-    accessorKey: "firstName",
+    accessorKey: "name",
     header: ({ column }) => (
-      <SortButton column={column} title="First Name" className="text-center" />
+      <SortButton column={column} title="Name" className="text-center" />
     ),
     cell: ({ row }) => (
-      <div className="text-center">{row.getValue("firstName")}</div>
-    ),
-  },
-  {
-    accessorKey: "lastName",
-    header: ({ column }) => (
-      <SortButton column={column} title="Last Name" className="text-center" />
-    ),
-    cell: ({ row }) => (
-      <div className="text-center">{row.getValue("lastName")}</div>
+      <div className="text-center">{row.getValue("name")}</div>
     ),
   },
   {
@@ -35,19 +25,12 @@ export const columns: ColumnDef<CustomerType>[] = [
   },
   {
     accessorKey: "gender",
-    header: ({ table }) => (
-      <DropdownMenuTable
-        title="Gender"
-        className="text-center"
-        selectedCategories={table.options.meta?.selectedCategories}
-        onCategoryChange={table.options.meta?.onCategoryChange}
-      />
+    header: ({ column }) => (
+      <SortButton column={column} title="Gender" className="text-center" />
     ),
-    cell: ({ row }) => {
-      const category: CategoryType = row.getValue("category");
-
-      return <div className="text-center">{category.name}</div>;
-    },
+    cell: ({ row }) => (
+      <div className="text-center">{row.getValue("gender")}</div>
+    ),
   },
   {
     accessorKey: "email",

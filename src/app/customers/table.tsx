@@ -11,8 +11,9 @@ import {
 } from "@tanstack/react-table";
 
 import { SkeletonTable, TableComponent } from "@/components/table";
+import { validSortFields } from "@/constants";
 import { useSearchParamsHandlers, useSearchParamsValues } from "@/hooks";
-import { format, getProductsData, updateSearchParams } from "@/lib";
+import { format, getCustomersData, updateSearchParams } from "@/lib";
 import { CustomerType } from "@/types";
 
 import { columns } from "./columns";
@@ -41,12 +42,10 @@ export default function CustomersTable() {
       setIsLoading(true);
 
       const { sortBy, sortOrder } = format.sorting(sorting);
-      const categories = Array.from(selectedCategories);
 
-      const result = await getProductsData({
+      const result = await getCustomersData({
         sortBy,
         sortOrder,
-        categories,
         currentPage,
         pageSize,
         search,
@@ -54,21 +53,19 @@ export default function CustomersTable() {
 
       const { shouldUpdate, params } = updateSearchParams({
         isValidSorting: result.isValidSorting,
-        safeCategories: result.safeCategories,
-        selectedCategories,
         newCurrentPage: result.currentPage,
         currentPage,
         newPageSize: result.pageSize,
         pageSize,
         search,
         searchParams,
-        validSortFields: validSortFieldsProducts,
+        validSortFields: validSortFields.customers,
       });
 
       if (shouldUpdate) {
         router.replace(`?${params.toString()}`, { scroll: false });
       } else {
-        setData(result.products);
+        setData(result.customers);
         setTotalPages(result.totalPages);
         setIsLoading(false);
       }

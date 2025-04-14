@@ -11,7 +11,7 @@ import {
 } from "@tanstack/react-table";
 
 import { SkeletonTable, TableComponent } from "@/components/table";
-import { validSortFieldsCategories } from "@/constants";
+import { validSortFields } from "@/constants";
 import { useSearchParamsHandlers, useSearchParamsValues } from "@/hooks";
 import { format, getCategoriesData, updateSearchParams } from "@/lib";
 import { CategoryType } from "@/types";
@@ -58,7 +58,7 @@ export default function CategoriesTable() {
         pageSize,
         search,
         searchParams,
-        validSortFields: validSortFieldsCategories,
+        validSortFields: validSortFields.categories,
       });
 
       if (shouldUpdate) {

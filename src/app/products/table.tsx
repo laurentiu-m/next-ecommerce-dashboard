@@ -12,7 +12,7 @@ import {
 } from "@tanstack/react-table";
 
 import { TableComponent, SkeletonTable } from "@/components/table";
-import { validSortFieldsProducts } from "@/constants";
+import { validSortFields } from "@/constants";
 import { useSearchParamsValues, useSearchParamsHandlers } from "@/hooks";
 import { format, updateSearchParams } from "@/lib";
 import { getProductsData } from "@/lib/table";
@@ -73,7 +73,7 @@ export default function ProductsTable() {
         pageSize,
         search,
         searchParams,
-        validSortFields: validSortFieldsProducts,
+        validSortFields: validSortFields.products,
       });
 
       if (shouldUpdate) {

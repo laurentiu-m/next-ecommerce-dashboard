@@ -24,15 +24,13 @@ export type ProductType = {
 
 export type CustomerType = {
   id: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   age: number;
   gender: string;
   email: string;
   username: string;
   phone: string;
   createdAt: Date;
-  Order: OrderType;
 };
 
 export type ImageType = {

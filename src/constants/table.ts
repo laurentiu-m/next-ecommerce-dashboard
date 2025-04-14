@@ -1,5 +1,9 @@
-export const validSortFieldsProducts = ["title", "stock", "rating", "price"];
-export const validSortFieldsCategories = ["name"];
+export const validSortFields = {
+  products: ["title", "stock", "rating", "price"],
+  categories: ["name"],
+  customers: ["name", "age", "email", "username"],
+};
+
 export const validSortOrders = ["asc", "desc"];
 
 export const sortOrders = [
