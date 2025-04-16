@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import {
   getCoreRowModel,
   getSortedRowModel,
+  RowData,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -18,6 +19,14 @@ import { CustomerType } from "@/types";
 
 import { columns } from "./columns";
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
+declare module "@tanstack/react-table" {
+  interface TableMeta<TData extends RowData> {
+    selectedGender?: string | null;
+    onGenderChange?: (gender: string) => void;
+  }
+}
+
 export default function CustomersTable() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -26,12 +35,18 @@ export default function CustomersTable() {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { currentPage, pageSize, search, selectedCategories, sorting } =
-    useSearchParamsValues(searchParams);
+  const {
+    currentPage,
+    pageSize,
+    search,
+    selectedCategories,
+    selectedGender,
+    sorting,
+  } = useSearchParamsValues(searchParams);
 
   const {
     onSortingChange,
-    onCategoryChange,
+    onGenderChange,
     onCurrentPageChange,
     onPageSizeChange,
     onSearchChange,
@@ -72,15 +87,7 @@ export default function CustomersTable() {
     };
 
     fetchData();
-  }, [
-    sorting,
-    selectedCategories,
-    currentPage,
-    pageSize,
-    router,
-    searchParams,
-    search,
-  ]);
+  }, [sorting, currentPage, pageSize, router, searchParams, search]);
 
   const table = useReactTable({
     data,
@@ -92,8 +99,8 @@ export default function CustomersTable() {
     manualSorting: true,
     enableMultiSort: false,
     meta: {
-      selectedCategories,
-      onCategoryChange,
+      selectedGender,
+      onGenderChange,
     },
   });
 

@@ -23,8 +23,8 @@ import { columns } from "./columns";
 /* eslint-disable @typescript-eslint/no-unused-vars */
 declare module "@tanstack/react-table" {
   interface TableMeta<TData extends RowData> {
-    selectedCategories: Set<string>;
-    onCategoryChange: (category: string) => void;
+    selectedCategories?: Set<string>;
+    onCategoryChange?: (category: string) => void;
   }
 }
 

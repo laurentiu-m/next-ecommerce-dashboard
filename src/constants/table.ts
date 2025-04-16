@@ -12,6 +12,12 @@ export const sortOrders = [
   { name: "Desc", value: "desc" },
 ];
 
+export const sortGenderOrders = [
+  { name: "All", value: "" },
+  { name: "Male", value: "male" },
+  { name: "Female", value: "female" },
+];
+
 export const actions = ["Edit", "Delete"];
 
 export const rows = [10, 20, 30, 40, 50];
@@ -28,4 +34,5 @@ export enum TableParam {
   PageSize = "pageSize",
   Categories = "categories",
   Search = "search",
+  Gender = "gender",
 }
