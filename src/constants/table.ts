@@ -1,11 +1,21 @@
-export const validSortFieldsProducts = ["title", "stock", "rating", "price"];
-export const validSortFieldsCategories = ["name"];
+export const validSortFields = {
+  products: ["title", "stock", "rating", "price"],
+  categories: ["name"],
+  customers: ["name", "age", "email", "username"],
+};
+
 export const validSortOrders = ["asc", "desc"];
 
 export const sortOrders = [
   { name: "Default", value: "" },
   { name: "Asc", value: "asc" },
   { name: "Desc", value: "desc" },
+];
+
+export const sortGenderOrders = [
+  { name: "All", value: "" },
+  { name: "Male", value: "male" },
+  { name: "Female", value: "female" },
 ];
 
 export const actions = ["Edit", "Delete"];
@@ -24,4 +34,5 @@ export enum TableParam {
   PageSize = "pageSize",
   Categories = "categories",
   Search = "search",
+  Gender = "gender",
 }

@@ -30,3 +30,12 @@ export type CategoriesTableProps = {
   pageSize: number;
   search: string | null;
 };
+
+export type CustomersTableProps = {
+  sortBy: string;
+  sortOrder: string;
+  selectedGender: string | null;
+  currentPage: number;
+  pageSize: number;
+  search: string | null;
+};

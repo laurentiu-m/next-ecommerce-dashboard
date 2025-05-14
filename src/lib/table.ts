@@ -1,14 +1,16 @@
 "use server";
 
+import { validSortFields } from "@/constants";
 import {
-  validSortFieldsCategories,
-  validSortFieldsProducts,
-} from "@/constants";
-import { CategoriesTableProps, ProductsTableProps } from "@/types";
+  CategoriesTableProps,
+  CustomersTableProps,
+  ProductsTableProps,
+} from "@/types";
 
 import { prisma } from "./prisma/prisma";
 import {
   getTotalCategoriesCount,
+  getTotalCustomersCount,
   getTotalProductsCount,
   handleSafeCategories,
   handleSafePage,
@@ -40,7 +42,7 @@ export const getProductsData = async ({
     isValid,
     sortBy: safeSortBy,
     sortOrder: safeSortOrder,
-  } = await handleSafeSorting(sortBy, sortOrder, validSortFieldsProducts);
+  } = await handleSafeSorting(sortBy, sortOrder, validSortFields.products);
 
   const orderBy =
     isValid && safeSortBy && safeSortOrder
@@ -100,7 +102,7 @@ export const getCategoriesData = async ({
     isValid,
     sortBy: safeSortBy,
     sortOrder: safeSortOrder,
-  } = await handleSafeSorting(sortBy, sortOrder, validSortFieldsCategories);
+  } = await handleSafeSorting(sortBy, sortOrder, validSortFields.categories);
 
   const orderBy =
     isValid && safeSortBy && safeSortOrder
@@ -116,6 +118,55 @@ export const getCategoriesData = async ({
 
   return {
     categories,
+    totalPages,
+    currentPage: safeCurrentPage,
+    pageSize: safePageSize,
+    isValidSorting: isValid,
+  };
+};
+
+export const getCustomersData = async ({
+  sortBy,
+  sortOrder,
+  currentPage,
+  selectedGender,
+  pageSize,
+  search,
+}: CustomersTableProps) => {
+  const totalCount = await getTotalCustomersCount(search, selectedGender);
+  const totalPages = Math.ceil(totalCount / pageSize);
+
+  const { safeCurrentPage, safePageSize } = await handleSafePage(
+    pageSize,
+    currentPage,
+    totalPages
+  );
+
+  const skip = (safeCurrentPage - 1) * safePageSize;
+
+  const {
+    isValid,
+    sortBy: safeSortBy,
+    sortOrder: safeSortOrder,
+  } = await handleSafeSorting(sortBy, sortOrder, validSortFields.customers);
+
+  const orderBy =
+    isValid && safeSortBy && safeSortOrder
+      ? { [safeSortBy]: safeSortOrder }
+      : undefined;
+
+  const customers = await prisma.customer.findMany({
+    orderBy,
+    where: {
+      ...(selectedGender ? { gender: selectedGender } : {}),
+      ...(search ? { name: { contains: search } } : {}),
+    },
+    skip,
+    take: safePageSize,
+  });
+
+  return {
+    customers,
     totalPages,
     currentPage: safeCurrentPage,
     pageSize: safePageSize,

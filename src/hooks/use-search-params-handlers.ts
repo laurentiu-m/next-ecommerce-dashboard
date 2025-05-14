@@ -7,6 +7,7 @@ import { OnChangeFn, SortingState } from "@tanstack/react-table";
 import {
   handleCategoryChange,
   handleCurrentPageChange,
+  handleGenderChange,
   handlePageSizeChange,
   handleSearchChange,
   handleSortingChange,
@@ -51,6 +52,11 @@ export const useSearchParamsHandlers = ({
     }
   };
 
+  const onGenderChange = (gender: string) => {
+    const updatedParams = handleGenderChange(gender, searchParams);
+    updateParams(updatedParams);
+  };
+
   const onCurrentPageChange = (page: number) => {
     const updatedParams = handleCurrentPageChange(page, searchParams);
     updateParams(updatedParams);
@@ -69,6 +75,7 @@ export const useSearchParamsHandlers = ({
   return {
     onSortingChange,
     onCategoryChange,
+    onGenderChange,
     onCurrentPageChange,
     onPageSizeChange,
     onSearchChange,

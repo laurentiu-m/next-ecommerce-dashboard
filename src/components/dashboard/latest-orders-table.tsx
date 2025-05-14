@@ -46,9 +46,7 @@ export const LatestOrdersTable = async () => {
         <TableBody>
           {orders.map((order) => (
             <TableRow key={order.id}>
-              <TableCell className="py-4">
-                {order.customer.firstName} {order.customer.lastName}
-              </TableCell>
+              <TableCell className="py-4">{order.customer.name}</TableCell>
               <TableCell>
                 <div className="flex gap-2">
                   {order.items.map((item) => (

@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 import { Search } from "lucide-react";
 
@@ -20,6 +20,14 @@ export const SearchComponent = ({ search, onSearchChange }: Props) => {
     onSearchChange(searchTerm);
   };
 
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    if (value === "") onSearchChange("");
+
+    setSearchTerm(value);
+  };
+
   return (
     <form onSubmit={onSubmit} className="relative w-100">
       <Input
@@ -29,7 +37,7 @@ export const SearchComponent = ({ search, onSearchChange }: Props) => {
         placeholder="Search"
         className="w-full"
         defaultValue={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={onChange}
       />
       <Button
         type="submit"

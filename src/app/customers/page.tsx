@@ -1,7 +1,11 @@
-export default function UsersPage() {
+"use server";
+
+import CustomersTable from "./table";
+
+export default async function UsersPage() {
   return (
-    <div>
-      <h1>Customers Page</h1>
+    <div className="p-8">
+      <CustomersTable />
     </div>
   );
 }

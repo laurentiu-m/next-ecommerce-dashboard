@@ -12,7 +12,7 @@ import {
 } from "@tanstack/react-table";
 
 import { TableComponent, SkeletonTable } from "@/components/table";
-import { validSortFieldsProducts } from "@/constants";
+import { validSortFields } from "@/constants";
 import { useSearchParamsValues, useSearchParamsHandlers } from "@/hooks";
 import { format, updateSearchParams } from "@/lib";
 import { getProductsData } from "@/lib/table";
@@ -23,8 +23,8 @@ import { columns } from "./columns";
 /* eslint-disable @typescript-eslint/no-unused-vars */
 declare module "@tanstack/react-table" {
   interface TableMeta<TData extends RowData> {
-    selectedCategories: Set<string>;
-    onCategoryChange: (category: string) => void;
+    selectedCategories?: Set<string>;
+    onCategoryChange?: (category: string) => void;
   }
 }
 
@@ -73,7 +73,7 @@ export default function ProductsTable() {
         pageSize,
         search,
         searchParams,
-        validSortFields: validSortFieldsProducts,
+        validSortFields: validSortFields.products,
       });
 
       if (shouldUpdate) {

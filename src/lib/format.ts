@@ -30,4 +30,8 @@ export const format = {
       sortOrder: sorting.length === 0 ? "" : sorting[0]?.desc ? "desc" : "asc",
     };
   },
+
+  fullName: (firstName: string, lastName: string) => {
+    return [firstName, lastName].filter(Boolean).join(" ");
+  },
 };

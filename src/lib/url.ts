@@ -31,6 +31,10 @@ export const getSelectedCategories = (
   return new Set(categories ? categories.split(",") : []);
 };
 
+export const getSelectedGender = (searchParams: ReadonlyURLSearchParams) => {
+  return searchParams.get(TableParam.Gender);
+};
+
 export const getCurrentPage = (searchParams: ReadonlyURLSearchParams) => {
   const currentPage = searchParams.get(TableParam.CurrentPage);
   return currentPage ? Number(currentPage) : 1;
@@ -42,8 +46,7 @@ export const getPageSize = (searchParams: ReadonlyURLSearchParams) => {
 };
 
 export const getSearch = (searchParams: ReadonlyURLSearchParams) => {
-  const search = searchParams.get(TableParam.Search);
-  return search;
+  return searchParams.get(TableParam.Search);
 };
 
 export const handleSortingChange = (
@@ -90,6 +93,17 @@ export const handleCategoryChange = (
   } else {
     params.delete(TableParam.Categories);
   }
+
+  return params;
+};
+
+export const handleGenderChange = (
+  gender: string,
+  searchParams: ReadonlyURLSearchParams
+) => {
+  const params = new URLSearchParams(searchParams.toString());
+
+  params.set(TableParam.Gender, gender);
 
   return params;
 };
@@ -146,6 +160,7 @@ export const updateSearchParams = ({
   validSortFields,
   safeCategories,
   selectedCategories,
+  selectedGender,
   newCurrentPage,
   currentPage,
   newPageSize,
@@ -158,6 +173,11 @@ export const updateSearchParams = ({
 
   if (search === "") {
     params.delete(TableParam.Search);
+    shouldUpdate = true;
+  }
+
+  if (selectedGender === "") {
+    params.delete(TableParam.Gender);
     shouldUpdate = true;
   }
 

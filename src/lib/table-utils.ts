@@ -45,7 +45,7 @@ export const getTotalProductsCount = async (
   categories: string[],
   search: string | null
 ) => {
-  const total = await prisma.product.count({
+  return await prisma.product.count({
     where: {
       AND: [
         categories.length > 0 ? { category: { slug: { in: categories } } } : {},
@@ -57,14 +57,22 @@ export const getTotalProductsCount = async (
       ],
     },
   });
-
-  return total;
 };
 
 export const getTotalCategoriesCount = async (search: string | null) => {
   const where = search ? { name: { contains: search } } : {};
 
-  const total = await prisma.category.count({ where });
+  return await prisma.category.count({ where });
+};
 
-  return total;
+export const getTotalCustomersCount = async (
+  search: string | null,
+  gender: string | null
+) => {
+  const where = {
+    ...(search ? { name: { contains: search } } : {}),
+    ...(gender ? { gender } : {}),
+  };
+
+  return await prisma.customer.count({ where });
 };

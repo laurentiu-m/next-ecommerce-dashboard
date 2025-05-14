@@ -7,6 +7,7 @@ import {
   getPageSize,
   getSearch,
   getSelectedCategories,
+  getSelectedGender,
   getSorting,
 } from "@/lib";
 
@@ -17,6 +18,7 @@ export const useSearchParamsValues = (
     return {
       sorting: getSorting(searchParams),
       selectedCategories: getSelectedCategories(searchParams),
+      selectedGender: getSelectedGender(searchParams),
       currentPage: getCurrentPage(searchParams),
       pageSize: getPageSize(searchParams),
       search: getSearch(searchParams),
