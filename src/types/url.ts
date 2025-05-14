@@ -5,6 +5,7 @@ export type UpdateSearchParamsProps = {
   validSortFields: string[];
   safeCategories?: string[];
   selectedCategories?: Set<string>;
+  selectedGender?: string | null;
   newCurrentPage: number;
   currentPage: number;
   newPageSize: number;

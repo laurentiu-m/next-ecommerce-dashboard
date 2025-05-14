@@ -160,6 +160,7 @@ export const updateSearchParams = ({
   validSortFields,
   safeCategories,
   selectedCategories,
+  selectedGender,
   newCurrentPage,
   currentPage,
   newPageSize,
@@ -172,6 +173,11 @@ export const updateSearchParams = ({
 
   if (search === "") {
     params.delete(TableParam.Search);
+    shouldUpdate = true;
+  }
+
+  if (selectedGender === "") {
+    params.delete(TableParam.Gender);
     shouldUpdate = true;
   }
 

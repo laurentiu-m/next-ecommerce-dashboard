@@ -65,8 +65,14 @@ export const getTotalCategoriesCount = async (search: string | null) => {
   return await prisma.category.count({ where });
 };
 
-export const getTotalCustomersCount = async (search: string | null) => {
-  const where = search ? { name: { contains: search } } : {};
+export const getTotalCustomersCount = async (
+  search: string | null,
+  gender: string | null
+) => {
+  const where = {
+    ...(search ? { name: { contains: search } } : {}),
+    ...(gender ? { gender } : {}),
+  };
 
   return await prisma.customer.count({ where });
 };

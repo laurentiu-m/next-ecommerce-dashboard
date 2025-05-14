@@ -34,6 +34,7 @@ export type CategoriesTableProps = {
 export type CustomersTableProps = {
   sortBy: string;
   sortOrder: string;
+  selectedGender: string | null;
   currentPage: number;
   pageSize: number;
   search: string | null;

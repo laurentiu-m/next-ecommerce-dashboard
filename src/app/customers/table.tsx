@@ -61,6 +61,7 @@ export default function CustomersTable() {
       const result = await getCustomersData({
         sortBy,
         sortOrder,
+        selectedGender,
         currentPage,
         pageSize,
         search,
@@ -73,6 +74,7 @@ export default function CustomersTable() {
         newPageSize: result.pageSize,
         pageSize,
         search,
+        selectedGender,
         searchParams,
         validSortFields: validSortFields.customers,
       });
@@ -87,7 +89,15 @@ export default function CustomersTable() {
     };
 
     fetchData();
-  }, [sorting, currentPage, pageSize, router, searchParams, search]);
+  }, [
+    sorting,
+    currentPage,
+    pageSize,
+    router,
+    searchParams,
+    search,
+    selectedGender,
+  ]);
 
   const table = useReactTable({
     data,

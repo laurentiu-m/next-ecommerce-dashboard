@@ -129,10 +129,11 @@ export const getCustomersData = async ({
   sortBy,
   sortOrder,
   currentPage,
+  selectedGender,
   pageSize,
   search,
 }: CustomersTableProps) => {
-  const totalCount = await getTotalCustomersCount(search);
+  const totalCount = await getTotalCustomersCount(search, selectedGender);
   const totalPages = Math.ceil(totalCount / pageSize);
 
   const { safeCurrentPage, safePageSize } = await handleSafePage(
@@ -156,7 +157,10 @@ export const getCustomersData = async ({
 
   const customers = await prisma.customer.findMany({
     orderBy,
-    where: search ? { name: { contains: search } } : {},
+    where: {
+      ...(selectedGender ? { gender: selectedGender } : {}),
+      ...(search ? { name: { contains: search } } : {}),
+    },
     skip,
     take: safePageSize,
   });
